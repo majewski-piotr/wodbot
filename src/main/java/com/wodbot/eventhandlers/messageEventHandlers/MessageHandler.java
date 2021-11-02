@@ -15,7 +15,7 @@ public enum MessageHandler implements Consumer<Message> {
     NUMBER_ONLY("[0-9]+", calculateRoll(false, false)),
     NUMBER_AND_NUMBER("[0-9]+\\s+[0-9]+", calculateRoll(true, false)),
     NUMBER_AND_NUMBER_PLUS("[0-9]+\\s+[0-9]+\\s\\+", calculateRoll(true, true)),
-    HELP("\\s*((?i)\\bhelp\\b)\\s*", showHelp());
+    HELP("\\s*((?i)\\b(help|pomocy?)\\b)\\s*", showHelp());
 
     private final String regex;
     private final Consumer<Message> consumer;

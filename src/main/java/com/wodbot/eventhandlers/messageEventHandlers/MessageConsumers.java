@@ -16,7 +16,9 @@ import static com.wodbot.eventhandlers.messageEventHandlers.MessageConsumerHelpe
 import static com.wodbot.eventhandlers.messageEventHandlers.MessageConsumerHelper.successesToString;
 import static com.wodbot.eventhandlers.messageEventHandlers.MessageConsumerHelper.getAuthor;
 
-class MessageConsumers {
+final class MessageConsumers {
+
+    private MessageConsumers(){}
 
     private static final Logger log = Logger.getLogger(MessageConsumers.class);
 
@@ -55,7 +57,7 @@ class MessageConsumers {
             help.append("Aby rzucić ze stopniem trudności wpisz liczbę kości a następnie stopień trudności poprzedzony spacją, np:\n`3 8`\n");
             help.append("Aby rzucić ze stopniem trudności i specjalizacją, dodaj na końcu + poprzedzony spacją, np:\n`3 8 +`\n");
             MessageChannel channel = message.getChannel().block();
-            channel.createMessage(getAuthor(message) + " nie potrafi rzucić. Pomożemy:\n" + help.toString()).subscribe();
+            channel.createMessage("Wyświetlam opcje dla " + getAuthor(message) + ":\n" + help.toString()).subscribe();
             message.delete().subscribe();
         };
     }
