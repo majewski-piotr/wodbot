@@ -38,7 +38,7 @@ final class MessageConsumers {
                                     return msg.addReaction(ReactionEmoji.unicode("\u2620"));
                                 }
                                 return Mono.just(msg);
-                            }).subscribe();
+                            }).block();
 
                 } else {
                     channel.createMessage(getAuthor(message) + " rzuca:\n" + rollsToString(rolls)).block();
@@ -46,7 +46,7 @@ final class MessageConsumers {
             } catch (NullPointerException e) {
                 log.error(e.getMessage(), e);
             }
-            message.delete().subscribe();
+            message.delete().block();
         };
     }
 
@@ -57,8 +57,8 @@ final class MessageConsumers {
             help.append("Aby rzucić ze stopniem trudności wpisz liczbę kości a następnie stopień trudności poprzedzony spacją, np:\n`3 8`\n");
             help.append("Aby rzucić ze stopniem trudności i specjalizacją, dodaj na końcu + poprzedzony spacją, np:\n`3 8 +`\n");
             MessageChannel channel = message.getChannel().block();
-            channel.createMessage("Wyświetlam opcje dla " + getAuthor(message) + ":\n" + help.toString()).subscribe();
-            message.delete().subscribe();
+            channel.createMessage("Wyświetlam opcje dla " + getAuthor(message) + ":\n" + help.toString()).block();
+            message.delete().block();
         };
     }
 }
