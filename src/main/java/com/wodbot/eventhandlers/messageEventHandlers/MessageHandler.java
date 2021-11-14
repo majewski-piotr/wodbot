@@ -1,5 +1,7 @@
 package com.wodbot.eventhandlers.messageEventHandlers;
 
+import com.wodbot.eventhandlers.Handler;
+import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 
 import java.util.function.Consumer;
@@ -7,10 +9,11 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 
+import com.wodbot.cache.DiscordServersCache;
 import static com.wodbot.eventhandlers.messageEventHandlers.MessageConsumers.calculateRoll;
 import static com.wodbot.eventhandlers.messageEventHandlers.MessageConsumers.showHelp;
 
-public enum MessageHandler implements Consumer<Message> {
+public enum MessageHandler implements Handler<MessageCreateEvent> {
 
     NUMBER_ONLY("[0-9]+", calculateRoll(false, false)),
     NUMBER_AND_NUMBER("[0-9]+\\s+[0-9]+", calculateRoll(true, false)),
@@ -27,13 +30,17 @@ public enum MessageHandler implements Consumer<Message> {
         this.consumer = consumer;
     }
 
-    public boolean matches(Message message) {
+    public boolean test(MessageCreateEvent event) {
         Pattern pattern = Pattern.compile(regex);
-        return pattern.matcher(message.getContent()).matches();
+        return pattern.matcher(event.getMessage().getContent()).matches();
     }
 
-    public void accept(Message message) {
-        log.info(this.name() + " handles message: " + message.getContent());
-        consumer.accept(message);
+    public void accept(MessageCreateEvent event) {
+        DiscordServersCache.getInstance().getSnowflalkeChannelId().add(event.getMessage().getChannelId());
+        log.info(this.name() + " handles message: " +
+                event.getMessage().getContent() +
+                ", and adding to chache " +
+                event.getMessage().getChannelId());
+        consumer.accept(event.getMessage());
     }
 }
