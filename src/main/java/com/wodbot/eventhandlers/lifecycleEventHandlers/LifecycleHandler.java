@@ -9,7 +9,7 @@ import java.util.function.Predicate;
 
 import static com.wodbot.eventhandlers.lifecycleEventHandlers.GatewayLifecycleConsumers.alertLocalhost;
 import static com.wodbot.eventhandlers.lifecycleEventHandlers.GatewayLifecycleConsumers.updatePresence;
-import static com.wodbot.eventhandlers.HandlerHelper.isClass;
+import static com.wodbot.eventhandlers.Handler.isClass;
 
 public enum LifecycleHandler implements Handler<GatewayLifecycleEvent> {
 

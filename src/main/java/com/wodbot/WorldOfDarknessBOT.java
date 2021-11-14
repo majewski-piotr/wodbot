@@ -11,7 +11,7 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import com.wodbot.eventhandlers.messageEventHandlers.MessageHandler;
 import org.apache.log4j.Logger;
 
-import static com.wodbot.eventhandlers.HandlerHelper.testAndAccept;
+import static com.wodbot.eventhandlers.Handler.testAndAccept;
 
 public class WorldOfDarknessBOT {
 
