@@ -9,13 +9,15 @@ import java.util.function.Predicate;
 
 import static com.wodbot.eventhandlers.lifecycleEventHandlers.GatewayLifecycleConsumers.alertLocalhost;
 import static com.wodbot.eventhandlers.lifecycleEventHandlers.GatewayLifecycleConsumers.updatePresence;
+import static com.wodbot.eventhandlers.lifecycleEventHandlers.GatewayLifecycleConsumers.messageChannels;
+
 import static com.wodbot.eventhandlers.Handler.isClass;
 
 public enum LifecycleHandler implements Handler<GatewayLifecycleEvent> {
 
     DISCONNECT(isClass(DisconnectEvent.class),alertLocalhost()),
     CONNECT(isClass(ConnectEvent.class),updatePresence()),
-    RECONNECT(isClass(ReconnectEvent.class),updatePresence());
+    RECONNECT(isClass(ReconnectEvent.class),messageChannels());
 
     private final Predicate<GatewayLifecycleEvent> predicate;
     private final Consumer<GatewayLifecycleEvent> consumer;
