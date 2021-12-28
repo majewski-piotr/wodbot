@@ -1,11 +1,14 @@
+
 plugins {
-    id 'java'
+    id 'com.github.johnrengelman.shadow' version '4.0.0'
 }
+apply plugin: "java"
+apply plugin: "application"
+
+mainClassName = "com.wodbot.WorldOfDarknessBOT"
 
 group 'com.majewskipiotr.wodbot'
 version '1.0.1'
-
-sourceCompatibility = 1.8
 
 repositories {
     mavenCentral()
@@ -21,3 +24,11 @@ dependencies {
     testCompileOnly 'org.projectlombok:lombok:1.18.22'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
+
+shadowJar {
+    manifest {
+        attributes 'Main-Class': "$mainClassName"
+    }
+}
+
+

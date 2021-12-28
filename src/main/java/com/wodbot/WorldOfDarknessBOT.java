@@ -21,7 +21,7 @@ public class WorldOfDarknessBOT {
     public static void main(final String[] args) {
         PlayerService.getInstance(DummyDatabase.getInstance());
 
-        DiscordServersCache.getInstance().getSnowflalkeChannelId().add(Snowflake.of(System.getenv("CHANNEL_ID")));
+//        DiscordServersCache.getInstance().getSnowflalkeChannelId().add(Snowflake.of(System.getenv("CHANNEL_ID")));
         final DiscordClient client = DiscordClient.create(System.getenv("DISCORD_TOKEN"));
         final GatewayDiscordClient gateway = client.login().block();
 
