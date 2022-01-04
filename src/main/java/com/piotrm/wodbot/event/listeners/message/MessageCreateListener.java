@@ -1,10 +1,13 @@
 package com.piotrm.wodbot.event.listeners.message;
 
+import com.piotrm.wodbot.BotConfiguration;
 import com.piotrm.wodbot.event.listeners.EventListener;
 import com.piotrm.wodbot.event.strategies.CalculateRollStrategy;
 import com.piotrm.wodbot.event.strategies.EventStrategy;
 import com.piotrm.wodbot.event.strategies.HelpStrategy;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 
@@ -15,6 +18,8 @@ import java.util.regex.Pattern;
 @Service
 public class MessageCreateListener implements EventListener<MessageCreateEvent> {
 
+    private static final Logger log = LoggerFactory.getLogger( MessageCreateListener.class );
+
     @Override
     public Class<MessageCreateEvent> getEventType() {
         return MessageCreateEvent.class;
@@ -24,6 +29,7 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
     public void accept(MessageCreateEvent event) {
         for (PublicRegexMatcher regexMatcher : PublicRegexMatcher.values()) {
             if (regexMatcher.test(event)) {
+                log.info("Accepting "+ event.getClass().getSimpleName());
                 regexMatcher.getStrategy().accept(event);
             }
         }
