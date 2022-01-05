@@ -2,7 +2,7 @@ HELP.md
 target/
 logs/
 /docker/.env
-db-data/
+db/data/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/

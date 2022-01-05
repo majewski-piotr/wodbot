@@ -8,15 +8,17 @@ services:
     container_name: wodbot
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
-      - SQL_DATASOURCE_URL=compose-postgres
-      - SQL_DATASOURCE_USERNAME=compose-postgres
-      - SQL_DATASOURCE_PASSWORD=compose-postgres
+      - SQL_DATASOURCE_URL=compose_postgres
+      - SQL_DATASOURCE_USERNAME=compose_postgres
+      - SQL_DATASOURCE_PASSWORD=compose_postgres
 
   postgres:
     image: 'postgres:13.1-alpine'
     container_name: postgres
     environment:
-      - POSTGRES_USER=compose-postgres
-      - POSTGRES_PASSWORD=compose-postgres
+      - POSTGRES_USER=compose_postgres
+      - POSTGRES_PASSWORD=compose_postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - ../db-data/sql/postgres/:/var/lib/postgresql/data
+      - ../db/data/sql/postgres/:/var/lib/postgresql/data
+      - ../db/init/sql/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
