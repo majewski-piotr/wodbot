@@ -1,0 +1,12 @@
+version: '2'
+
+services:
+  wodbot:
+    image: 'pmajewski/wodbot'
+    build:
+      context: .
+    container_name: wodbot
+    environment:
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+    volumes:
+      -
