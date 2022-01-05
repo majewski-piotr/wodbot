@@ -17,7 +17,6 @@ I plan to add support for registering accounts, creating and storing character s
 - Spring Boot
 - Discord4j
 
-
 ## Author
 
 **Piotr Majewski**
