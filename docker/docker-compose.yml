@@ -8,3 +8,15 @@ services:
     container_name: wodbot
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - SQL_DATASOURCE_URL=compose-postgres
+      - SQL_DATASOURCE_USERNAME=compose-postgres
+      - SQL_DATASOURCE_PASSWORD=compose-postgres
+
+  postgres:
+    image: 'postgres:13.1-alpine'
+    container_name: postgres
+    environment:
+      - POSTGRES_USER=compose-postgres
+      - POSTGRES_PASSWORD=compose-postgres
+    volumes:
+      - ../db-data/sql/postgres/:/var/lib/postgresql/data
