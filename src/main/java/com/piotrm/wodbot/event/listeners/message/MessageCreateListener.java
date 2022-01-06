@@ -40,6 +40,7 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
         NUMBER_ONLY("[0-9]+",new CalculateRollStrategy(false,false)),
         NUMBER_AND_NUMBER("[0-9]+\\s+[0-9]+", new CalculateRollStrategy(true,false)),
         NUMBER_AND_NUMBER_PLUS("[0-9]+\\s+[0-9]+\\s\\+",new CalculateRollStrategy(true,true)),
+        REGISTER("\\s*((?i)\\b(register)\\b)\\s*",null),
         HELP("\\s*((?i)\\b(help|pomocy?)\\b)\\s*",new HelpStrategy());
 
 
