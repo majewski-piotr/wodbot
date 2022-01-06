@@ -1,6 +1,10 @@
 package com.piotrm.wodbot.model;
 
+import com.piotrm.wodbot.validation.ValidEmail;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "users")
@@ -10,6 +14,9 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ValidEmail
+    @NotNull
+    @NotEmpty
     @Column(nullable = false, unique = true, length = 45)
     private String email;
 
