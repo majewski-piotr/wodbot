@@ -15,7 +15,7 @@ import java.util.List;
 @Configuration
 public class BotConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger( BotConfiguration.class );
+    private static final Logger log = LoggerFactory.getLogger(BotConfiguration.class);
 
     @Value("${token}")
     private String token;
@@ -30,12 +30,11 @@ public class BotConfiguration {
                     .login()
                     .block();
 
-            for(EventListener<T> listener : eventListeners) {
+            for (EventListener<T> listener : eventListeners) {
                 client.on(listener.getEventType()).subscribe(listener);
             }
-        }
-        catch ( Exception exception ) {
-            log.error( "Be sure to use a valid bot token!", exception );
+        } catch (Exception exception) {
+            log.error("Be sure to use a valid bot token!", exception);
         }
 
         return client;

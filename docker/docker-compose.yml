@@ -6,19 +6,37 @@ services:
     build:
       context: .
     container_name: wodbot
+    depends_on:
+      - postgres
+      - redis
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
-      - SQL_DATASOURCE_URL=compose_postgres
-      - SQL_DATASOURCE_USERNAME=compose_postgres
-      - SQL_DATASOURCE_PASSWORD=compose_postgres
+      - SQL_DATASOURCE_URL=jdbc:postgresql://postgres:5432/auth_db
+      - SQL_DATASOURCE_USERNAME=${POSTGRES_USER}
+      - SQL_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n
+    ports:
+      - '8080:8080'
+      - '5005:5005'
 
   postgres:
     image: 'postgres:13.1-alpine'
     container_name: postgres
+    expose:
+      - 5432
     environment:
-      - POSTGRES_USER=compose_postgres
-      - POSTGRES_PASSWORD=compose_postgres
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - ../db/data/sql/postgres/:/var/lib/postgresql/data
       - ../db/init/sql/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  redis:
+    image: 'redis:6.0'
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: >
+      --requirepass ${REDIS_PASSWORD}
