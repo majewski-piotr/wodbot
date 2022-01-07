@@ -8,11 +8,13 @@ services:
     container_name: wodbot
     depends_on:
       - postgres
+      - redis
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
       - SQL_DATASOURCE_URL=jdbc:postgresql://postgres:5432/auth_db
       - SQL_DATASOURCE_USERNAME=${POSTGRES_USER}
       - SQL_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n
     ports:
       - '8080:8080'
@@ -30,3 +32,11 @@ services:
     volumes:
       - ../db/data/sql/postgres/:/var/lib/postgresql/data
       - ../db/init/sql/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  redis:
+    image: 'redis:6.0'
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: >
+      --requirepass ${REDIS_PASSWORD}

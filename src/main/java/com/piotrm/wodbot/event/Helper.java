@@ -1,8 +1,5 @@
 package com.piotrm.wodbot.event;
 
-
-import discord4j.common.util.Snowflake;
-import discord4j.core.event.domain.lifecycle.GatewayLifecycleEvent;
 import discord4j.core.object.entity.Message;
 
 import java.util.ArrayList;
@@ -53,11 +50,5 @@ public class Helper {
 
     public static String getAuthor(Message message) {
         return message.getAuthor().get().getMention();
-    }
-
-    public static String parseFromBrackets(String messageContent){
-        int start = messageContent.indexOf('[')+1;
-        int end = messageContent.indexOf(']');
-        return messageContent.substring(start,end);
     }
 }

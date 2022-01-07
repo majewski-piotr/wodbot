@@ -1,6 +1,5 @@
 package com.piotrm.wodbot.event.strategies;
 
-
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
@@ -11,12 +10,10 @@ import java.util.List;
 
 import static com.piotrm.wodbot.event.Helper.*;
 
-
 public class CalculateRollStrategy implements EventStrategy<MessageCreateEvent> {
 
     private boolean withDifficulty;
     private boolean specialised;
-
 
 
     public CalculateRollStrategy(boolean withDifficulty, boolean specialised) {
@@ -35,7 +32,7 @@ public class CalculateRollStrategy implements EventStrategy<MessageCreateEvent> 
                 int difficulty = numbers.get(1);
                 int successes = getSuccesses(rolls, difficulty, specialised);
                 channel.createMessage(getAuthor(message) + " rzuca" + (specialised ? " ze specjalizacją:" : ":") +
-                        "\n" + rollsToString(rolls) + successesToString(difficulty, successes))
+                                "\n" + rollsToString(rolls) + successesToString(difficulty, successes))
                         .flatMap(msg -> {
                             if (successes < 0) {
                                 return msg.addReaction(ReactionEmoji.unicode("\u2620"));
