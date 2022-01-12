@@ -1,6 +1,5 @@
 package com.piotrm.wodbot.event.strategies;
 
-import com.piotrm.wodbot.model.PlayerCharacter;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +25,7 @@ public class UpdateStrategy extends LoggedInStrategy {
             case "info":
                 playerCharacterService.updateInfo(userId, characterName, fieldName, newValue);
                 break;
-            case "resources":
+            case "resource":
                 playerCharacterService.updateResources(userId, characterName, fieldName, Byte.valueOf(newValue));
                 break;
             default:

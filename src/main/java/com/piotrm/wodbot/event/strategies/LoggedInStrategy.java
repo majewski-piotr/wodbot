@@ -1,8 +1,7 @@
 package com.piotrm.wodbot.event.strategies;
 
-import com.piotrm.wodbot.dao.PlayerCharacterRepository;
-import com.piotrm.wodbot.dao.UserRepository;
 import com.piotrm.wodbot.service.PlayerCharacterService;
+import com.piotrm.wodbot.service.UserService;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
@@ -28,8 +27,8 @@ public abstract class LoggedInStrategy implements EventStrategy<MessageCreateEve
         this.userId = redisTemplate.opsForValue().get(discordUser.get().getId().asLong());
         this.message = event.getMessage();
         this.data = event.getMessage().getContent().split(" ");
-        characterName = data[0];
-        operation = data[1];
+        characterName = data[1];
+        operation = data[0];
     }
 
     public void sendResponse(String response) {

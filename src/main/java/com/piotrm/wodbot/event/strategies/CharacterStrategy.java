@@ -18,8 +18,7 @@ public class CharacterStrategy extends LoggedInStrategy {
         if(operation.equals(GET)){
             response = playerCharacterService.getCharacter(userId,characterName).toString();
         } else if(operation.equals(CREATE)){
-            PlayerCharacter playerCharacter = new PlayerCharacter();
-            playerCharacter.setName(characterName);
+
             response = playerCharacterService.saveNew(userId,characterName)?"Stworzono":"Coś poszło nie tak";
         }
         sendResponse(response);

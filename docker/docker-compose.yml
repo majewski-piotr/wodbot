@@ -9,12 +9,15 @@ services:
     depends_on:
       - postgres
       - redis
+      - mongo
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
       - SQL_DATASOURCE_URL=jdbc:postgresql://postgres:5432/auth_db
       - SQL_DATASOURCE_USERNAME=${POSTGRES_USER}
       - SQL_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD}
       - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - MONGO_USER=${MONGO_USER}
+      - MONGO_PASSWORD=${MONGO_PASSWORD}
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,address=5005,server=y,suspend=n
     ports:
       - '8080:8080'
@@ -40,3 +43,14 @@ services:
       - "6379:6379"
     command: >
       --requirepass ${REDIS_PASSWORD}
+
+  mongo:
+    image: "mongo:4.4.3"
+    container_name: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_USER}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
+    ports:
+      - "27017:27017"
+#go with this https://www.linkedin.com/pulse/get-started-spring-boot-mongodb-docker-compose-saeid-farahi/
