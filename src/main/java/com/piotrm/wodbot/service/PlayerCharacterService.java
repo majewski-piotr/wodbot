@@ -24,6 +24,7 @@ public class PlayerCharacterService {
         playerCharacter.setPlayerId(userId);
         playerCharacter.setName(characterName);
         playerCharacterRepository.save(playerCharacter);
+
         return true;
     }
 

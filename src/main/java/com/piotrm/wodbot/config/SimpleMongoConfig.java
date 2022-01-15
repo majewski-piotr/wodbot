@@ -19,17 +19,25 @@ public class SimpleMongoConfig {
     private String host;
     @Value("${spring.data.mongodb.database}")
     private String dbName;
+    @Value("${spring.data.mongodb.username}")
+    private String user;
+    @Value("${spring.data.mongodb.password}")
+    private String password;
+    @Value("${spring.data.mongodb.port}")
+    private String port;
+    @Value("${spring.data.mongodb.authentication-database}")
+    private String authSource;
 
     @Bean
     public MongoClient mongo() throws Exception {
-        final ConnectionString connectionString = new ConnectionString("mongodb://" + host + ":27017/" + dbName);
+        String mongoClientURI = "mongodb://" + user + ":" + password + "@" + host + ":" + port + "/" + dbName + "?authSource=" + authSource;
+        final ConnectionString connectionString = new ConnectionString(mongoClientURI);
         final MongoClientSettings mongoClientSettings = MongoClientSettings.builder().applyConnectionString(connectionString).build();
         return MongoClients.create(mongoClientSettings);
     }
 
     @Bean
     public MongoTemplate mongoTemplate() throws Exception {
-        return new MongoTemplate(mongo(), "test");
+        return new MongoTemplate(mongo(), dbName);
     }
-
 }

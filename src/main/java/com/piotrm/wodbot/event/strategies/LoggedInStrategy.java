@@ -26,7 +26,7 @@ public abstract class LoggedInStrategy implements EventStrategy<MessageCreateEve
         this.discordUser = event.getMessage().getAuthor();
         this.userId = redisTemplate.opsForValue().get(discordUser.get().getId().asLong());
         this.message = event.getMessage();
-        this.data = event.getMessage().getContent().split(" ");
+        this.data = event.getMessage().getContent().split("\\s+");
         characterName = data[1];
         operation = data[0];
     }

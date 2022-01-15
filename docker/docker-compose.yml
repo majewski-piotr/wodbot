@@ -53,4 +53,6 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_PASSWORD}
     ports:
       - "27017:27017"
+    volumes:
+      - ../db/data/nosql/mongodb/:/data/db
 #go with this https://www.linkedin.com/pulse/get-started-spring-boot-mongodb-docker-compose-saeid-farahi/
