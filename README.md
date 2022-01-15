@@ -16,6 +16,7 @@ I plan to add support for registering accounts, creating and storing character s
 - Docker
 - PostgreSQL
 - Redis
+- MongoDB
 - Spring Boot
 - Discord4j
 
