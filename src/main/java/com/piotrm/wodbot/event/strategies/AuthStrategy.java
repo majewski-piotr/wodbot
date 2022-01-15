@@ -6,7 +6,7 @@ import discord4j.core.object.entity.User;
 
 import java.util.Optional;
 
-public abstract class AuthStrategy implements EventStrategy<MessageCreateEvent> {
+public abstract class AuthStrategy extends  MessageCreateStrategy{
     private Message message;
     protected String[] data;
     protected Optional<User> discordUser;

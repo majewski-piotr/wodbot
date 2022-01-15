@@ -32,7 +32,7 @@ public class UpdateStrategy extends LoggedInStrategy {
                 flag = false;
         }
 
-        String response = flag ? "Zaaktualizowano" : "Coś poszło nie tak";
+        String response = flag ? getMessage("update.success") : getMessage("update.fail");
         sendResponse(response);
     }
 }

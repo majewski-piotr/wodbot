@@ -18,11 +18,11 @@ public class RegisterStrategy extends AuthStrategy {
     public void accept(MessageCreateEvent event) {
         setUp(event);
 
-        String response = null;
+        String response;
         try {
-            response = userService.saveNewUser(data[1], data[2], data[3]) ? "Zapisano nowego użytkonika" : "Coś poszło nie tak";
+            response = userService.saveNewUser(data[1], data[2], data[3]) ? getMessage("register.success") : getMessage("register.fail");
         } catch (ConstraintViolationException e) {
-            StringBuilder errorMsg = new StringBuilder("Błędne: ");
+            StringBuilder errorMsg = new StringBuilder(getMessage("register.invalid"));
             for (ConstraintViolation violation : e.getConstraintViolations()) {
                 errorMsg.append(violation.getPropertyPath());
             }

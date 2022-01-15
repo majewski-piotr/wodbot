@@ -8,13 +8,16 @@ import discord4j.core.object.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.Locale;
 import java.util.Optional;
 
-public abstract class LoggedInStrategy implements EventStrategy<MessageCreateEvent> {
+public abstract class LoggedInStrategy extends MessageCreateStrategy {
     @Autowired
     protected PlayerCharacterService playerCharacterService;
     @Autowired
     RedisTemplate<Long, Long> redisTemplate;
+    @Autowired
+    UserService userService;
     protected String[] data;
     protected Long userId;
     private Message message;
@@ -35,5 +38,10 @@ public abstract class LoggedInStrategy implements EventStrategy<MessageCreateEve
         this.message.getChannel().block().createMessage(response).block();
         //TODO: HANDLE INSUFFICIENT PERMOSSION EXCEPTIONS
         this.message.delete().block();
+    }
+
+    @Override
+    public Locale getLocale(){
+        return userService.getLocaleFromCache(discordUser.get());
     }
 }

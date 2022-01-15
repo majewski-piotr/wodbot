@@ -3,11 +3,13 @@ package com.piotrm.wodbot.service;
 import com.piotrm.wodbot.dao.PlayerCharacterRepository;
 import com.piotrm.wodbot.model.PlayerCharacter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 
@@ -19,6 +21,9 @@ public class PlayerCharacterService {
     @Autowired
     PlayerCharacterRepository playerCharacterRepository;
 
+    @Autowired
+    ResourceBundleMessageSource messageSource;
+
     public boolean saveNew(Long userId, String characterName) {
         PlayerCharacter playerCharacter = new PlayerCharacter();
         playerCharacter.setPlayerId(userId);
@@ -26,6 +31,39 @@ public class PlayerCharacterService {
         playerCharacterRepository.save(playerCharacter);
 
         return true;
+    }
+
+    public String toString(PlayerCharacter playerCharacter, Locale locale) {
+
+        String name = messageSource.getMessage("characterSheet.name", null, locale);
+        String infos = messageSource.getMessage("characterSheet.infos", null, locale);
+        String attributes = messageSource.getMessage("characterSheet.attributes", null, locale);
+        String abilities = messageSource.getMessage("characterSheet.abilities", null, locale);
+        String backgrounds = messageSource.getMessage("characterSheet.backgrounds", null, locale);
+
+        StringBuilder stringBuilder = new StringBuilder(300);
+        stringBuilder.append(name + ": " + playerCharacter.getName() + "\n");
+        stringBuilder.append("**" + infos + "**\n");
+        for (Map.Entry<String, String> entry : playerCharacter.getInfo().entrySet()) {
+            appender(stringBuilder, entry);
+        }
+        stringBuilder.append("**" + attributes + "**\n");
+        for (Map.Entry<String, Byte> entry : playerCharacter.getAttributes().entrySet()) {
+            appender(stringBuilder, entry);
+        }
+        stringBuilder.append("**" + abilities + "**\n");
+        for (Map.Entry<String, Byte> entry : playerCharacter.getAbilities().entrySet()) {
+            appender(stringBuilder, entry);
+        }
+        stringBuilder.append("**" + backgrounds + "**\n");
+        for (Map.Entry<String, Byte> entry : playerCharacter.getResources().entrySet()) {
+            appender(stringBuilder, entry);
+        }
+        return stringBuilder.toString();
+    }
+
+    private void appender(StringBuilder sb, Map.Entry entry) {
+        sb.append("\t").append(entry.getKey()).append(" `").append(entry.getValue()).append("`\n");
     }
 
     public PlayerCharacter getCharacter(Long userId, String charactername) {

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.Locale;
 import java.util.Optional;
 
 @Service
@@ -29,7 +30,7 @@ public class UserService {
             user.setUsername(username);
             user.setPassword(passwordEncoder.encode(password));
             user.setEmail(email);
-            user.setLanguage("ENG");
+            user.setLocale(new Locale.Builder().setLanguage("pl").setRegion("PL").build());
             userRepository.save(user);
             return true;
         }
@@ -54,6 +55,16 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    public Locale getLocaleFromCache(discord4j.core.object.entity.User discordUser){
+        Long snowFlake = discordUser.getId().asLong();
+        Long userId = -1L;
+        userId = redisTemplate.opsForValue().get(snowFlake);
+        if (userId != null && userId != -1 && userRepository.findById(userId).isPresent()) {
+            return userRepository.findById(userId).get().getLocale();
+        }
+        return null;
     }
 
     private boolean authenticate(String username, String password) {

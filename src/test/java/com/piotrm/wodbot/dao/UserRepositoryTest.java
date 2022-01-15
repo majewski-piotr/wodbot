@@ -8,6 +8,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
+import java.util.Locale;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +30,7 @@ class UserRepositoryTest {
         user.setEmail("ravikumar@gmail.com");
         user.setPassword("ravi2020");
         user.setUsername("Ravi");
-        user.setLanguage("ENG");
+        user.setLocale(new Locale.Builder().setLanguage("pl").setRegion("PL").build());
 
         User savedUser = repo.save(user);
 

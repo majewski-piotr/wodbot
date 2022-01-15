@@ -15,7 +15,7 @@ public class StatusStrategy extends AuthStrategy {
     public void accept(MessageCreateEvent event) {
         setUp(event);
 
-        String response = userService.isLogged(discordUser.get()) ? "Zalogowany" : "Niezalogowany";
+        String response = userService.isLogged(discordUser.get()) ? getMessage("logged.yes") : getMessage("logged.no");
 
         sendResponse(response);
     }

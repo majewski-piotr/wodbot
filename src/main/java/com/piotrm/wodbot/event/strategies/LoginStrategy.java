@@ -15,7 +15,7 @@ public class LoginStrategy extends AuthStrategy {
     public void accept(MessageCreateEvent event) {
         setUp(event);
 
-        String response = userService.loginUser(data[1], data[2], discordUser) ? "Zalogowano użytkonika" : "Coś poszło nie tak";
+        String response = userService.loginUser(data[1], data[2], discordUser) ? getMessage("login.success") : getMessage("login.fail");
 
         sendResponse(response);
     }
