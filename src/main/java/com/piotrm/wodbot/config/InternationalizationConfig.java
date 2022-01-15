@@ -12,6 +12,7 @@ public class InternationalizationConfig {
     public ResourceBundleMessageSource messageSource() {
         ResourceBundleMessageSource source = new ResourceBundleMessageSource();
         source.setBasenames("messages");
+        source.setDefaultEncoding("ISO-8859-1");
         source.setUseCodeAsDefaultMessage(true);
         return source;
     }

@@ -33,14 +33,14 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
 
     @Autowired
     public MessageCreateListener(RegisterStrategy registerStrategy, LoginStrategy loginStrategy, StatusStrategy statusStrategy,
-                                 CharacterStrategy characterStrategy, UpdateStrategy updateStrategy) {
+                                 CharacterStrategy characterStrategy, UpdateStrategy updateStrategy, HelpStrategy helpStrategy) {
         regularMatcher.put("[0-9]+", new CalculateRollStrategy(false, false));
         regularMatcher.put("[0-9]+\\s+[0-9]+", new CalculateRollStrategy(true, false));
         regularMatcher.put("[0-9]+\\s+[0-9]+\\s\\+", new CalculateRollStrategy(true, true));
         regularMatcher.put("\\s*((?i)\\b(" + REGISTER + ")\\b)\\s+\\S+\\s+\\S+\\s+\\S+\\s*", registerStrategy);
         regularMatcher.put("\\s*((?i)\\b(" + LOGIN + ")\\b)\\s+\\S+\\s+\\S+\\s*", loginStrategy);
         regularMatcher.put("\\s*((?i)\\b(" + STATUS + ")\\b)\\s*", statusStrategy);
-        regularMatcher.put("\\s*((?i)\\b(" + HELP + "|pomocy?)\\b)\\s*", new HelpStrategy());
+        regularMatcher.put("\\s*((?i)\\b(" + HELP + "|pomocy?)\\b)\\s*", helpStrategy);
 
         loggedInMatcher.put("\\s*((?i)\\b(" + CREATE + "|" + GET + ")\\b)\\s+\\S+\\s*", characterStrategy);
         loggedInMatcher.put("\\s*((?i)\\b(" + UPDATE + ")\\b)\\s+\\S+\\s+\\S+\\s+\\S+\\s+\\S+\\s*", updateStrategy);

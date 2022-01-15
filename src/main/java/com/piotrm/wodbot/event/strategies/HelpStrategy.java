@@ -3,7 +3,9 @@ package com.piotrm.wodbot.event.strategies;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HelpStrategy extends MessageCreateStrategy {
 
     @Override
@@ -17,7 +19,7 @@ public class HelpStrategy extends MessageCreateStrategy {
                 .append(getMessage("help.get")).append(getMessage("help.update"))
                 .append(getMessage("help.update.sections"));
         MessageChannel channel = message.getChannel().block();
-        channel.createMessage("Wyświetlam opcje:\n" + help).block();
+        channel.createMessage(getMessage("help.displaying")+":\n" + help).block();
         message.delete().block();
     }
 }

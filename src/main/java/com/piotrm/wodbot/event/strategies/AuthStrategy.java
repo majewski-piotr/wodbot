@@ -13,7 +13,7 @@ public abstract class AuthStrategy extends  MessageCreateStrategy{
 
     public void setUp(MessageCreateEvent event) {
         this.message = event.getMessage();
-        this.data = event.getMessage().getContent().split(" ");
+        this.data = event.getMessage().getContent().split("\\s+");
         this.discordUser = event.getMessage().getAuthor();
     }
 
