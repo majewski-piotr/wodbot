@@ -26,6 +26,7 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
     public static final String CREATE = "create";
     public static final String UPDATE = "update";
     public static final String GET = "get";
+    public static final String SETTINGS = "settings";
 
     private Map<String, EventStrategy> regularMatcher = new HashMap<>();
     private Map<String, EventStrategy> loggedInMatcher = new HashMap<>();
@@ -33,7 +34,8 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
 
     @Autowired
     public MessageCreateListener(RegisterStrategy registerStrategy, LoginStrategy loginStrategy, StatusStrategy statusStrategy,
-                                 CharacterStrategy characterStrategy, UpdateStrategy updateStrategy, HelpStrategy helpStrategy) {
+                                 CharacterStrategy characterStrategy, UpdateStrategy updateStrategy, HelpStrategy helpStrategy,
+                                 SettingsStrategy settingsStrategy) {
         regularMatcher.put("[0-9]+", new CalculateRollStrategy(false, false));
         regularMatcher.put("[0-9]+\\s+[0-9]+", new CalculateRollStrategy(true, false));
         regularMatcher.put("[0-9]+\\s+[0-9]+\\s\\+", new CalculateRollStrategy(true, true));
@@ -44,6 +46,7 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
 
         loggedInMatcher.put("\\s*((?i)\\b(" + CREATE + "|" + GET + ")\\b)\\s+\\S+\\s*", characterStrategy);
         loggedInMatcher.put("\\s*((?i)\\b(" + UPDATE + ")\\b)\\s+\\S+\\s+\\S+\\s+\\S+\\s+\\S+\\s*", updateStrategy);
+        loggedInMatcher.put("\\s*((?i)\\b(" + SETTINGS + ")\\b)\\s+\\S+\\s+\\S+\\s*", settingsStrategy);
 
 
     }

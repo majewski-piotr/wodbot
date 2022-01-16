@@ -17,16 +17,16 @@ public class UpdateStrategy extends LoggedInStrategy {
         boolean flag = true;
         switch (section) {
             case "attribute":
-                playerCharacterService.updateAttribute(userId, characterName, fieldName, Byte.valueOf(newValue));
+                playerCharacterService.updateAttribute(userId, field2, fieldName, Byte.valueOf(newValue));
                 break;
             case "ability":
-                playerCharacterService.updateAbility(userId, characterName, fieldName, Byte.valueOf(newValue));
+                playerCharacterService.updateAbility(userId, field2, fieldName, Byte.valueOf(newValue));
                 break;
             case "info":
-                playerCharacterService.updateInfo(userId, characterName, fieldName, newValue);
+                playerCharacterService.updateInfo(userId, field2, fieldName, newValue);
                 break;
             case "resource":
-                playerCharacterService.updateResources(userId, characterName, fieldName, Byte.valueOf(newValue));
+                playerCharacterService.updateResources(userId, field2, fieldName, Byte.valueOf(newValue));
                 break;
             default:
                 flag = false;

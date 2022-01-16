@@ -1,6 +1,5 @@
 package com.piotrm.wodbot.event.strategies;
 
-import com.piotrm.wodbot.event.listeners.message.MessageCreateListener;
 import com.piotrm.wodbot.service.PlayerCharacterService;
 import com.piotrm.wodbot.service.UserService;
 import discord4j.core.event.domain.message.MessageCreateEvent;
@@ -25,8 +24,8 @@ public abstract class LoggedInStrategy extends MessageCreateStrategy {
     protected String[] data;
     protected Long userId;
     private Message message;
-    protected String characterName;
-    protected String operation;
+    protected String field2;
+    protected String field1;
     protected Optional<User> discordUser;
 
     private static final Logger log = LoggerFactory.getLogger(LoggedInStrategy.class);
@@ -36,8 +35,8 @@ public abstract class LoggedInStrategy extends MessageCreateStrategy {
         this.userId = redisTemplate.opsForValue().get(discordUser.get().getId().asLong());
         this.message = event.getMessage();
         this.data = event.getMessage().getContent().split("\\s+");
-        characterName = data[1];
-        operation = data[0];
+        field2 = data[1];
+        field1 = data[0];
     }
 
     public void sendResponse(String response) {
@@ -48,5 +47,10 @@ public abstract class LoggedInStrategy extends MessageCreateStrategy {
     @Override
     public Locale getLocale(){
         return userService.getLocaleFromCache(discordUser.get());
+    }
+
+    @Override
+    String getMessage(String property){
+        return getMessageSource().getMessage(property,null,getLocale());
     }
 }

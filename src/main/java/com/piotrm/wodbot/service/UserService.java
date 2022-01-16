@@ -74,4 +74,18 @@ public class UserService {
         }
         return false;
     }
+
+    public boolean changeLocale(discord4j.core.object.entity.User discordUser, String language){
+        Long snowFlake = discordUser.getId().asLong();
+        Long userId = -1L;
+        userId = redisTemplate.opsForValue().get(snowFlake);
+        if (userId != null && userId != -1 && userRepository.findById(userId).isPresent()) {
+            User user = userRepository.findById(userId).get();
+            Locale locale = new Locale.Builder().setLanguage(language.toLowerCase()).setRegion(language.toUpperCase()).build();
+            user.setLocale(locale);
+            userRepository.saveAndFlush(user);
+            return true;
+        }
+        return false;
+    }
 }

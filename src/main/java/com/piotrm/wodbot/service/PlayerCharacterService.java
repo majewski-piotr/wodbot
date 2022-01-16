@@ -7,10 +7,12 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
+import reactor.util.annotation.Nullable;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.exact;
@@ -66,7 +68,8 @@ public class PlayerCharacterService {
         sb.append("\t").append(entry.getKey()).append(" `").append(entry.getValue()).append("`\n");
     }
 
-    public PlayerCharacter getCharacter(Long userId, String charactername) {
+
+    public Optional<PlayerCharacter> getCharacter(Long userId, String charactername){
         PlayerCharacter matcherObject = new PlayerCharacter();
         matcherObject.setPlayerId(userId);
         ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreNullValues().withMatcher("playerId", exact());
@@ -74,10 +77,10 @@ public class PlayerCharacterService {
         List<PlayerCharacter> playerCharacters = playerCharacterRepository.findAll(example);
         for (PlayerCharacter p : playerCharacters) {
             if (p.getName().equals(charactername)) {
-                return p;
+                return Optional.of(p);
             }
         }
-        throw new IllegalArgumentException("No such character for this player");
+        return Optional.empty();
     }
 
     public boolean updateAttribute(Long userId, String characterName, String fieldName, Byte newValue) {
