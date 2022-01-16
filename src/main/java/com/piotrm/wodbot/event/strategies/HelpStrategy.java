@@ -3,6 +3,7 @@ package com.piotrm.wodbot.event.strategies;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
+import reactor.core.publisher.Mono;
 
 public class HelpStrategy implements EventStrategy<MessageCreateEvent> {
 
@@ -23,6 +24,6 @@ public class HelpStrategy implements EventStrategy<MessageCreateEvent> {
         help.append("Dostępne sekcje to : `attribute`, `resource`, `info`, `ability`\n");
         MessageChannel channel = message.getChannel().block();
         channel.createMessage("Wyświetlam opcje:\n" + help).block();
-        message.delete().block();
+        message.delete().onErrorResume(e -> Mono.empty()).block();
     }
 }
