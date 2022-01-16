@@ -4,6 +4,7 @@ import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 @Component
 public class HelpStrategy extends MessageCreateStrategy {
@@ -20,6 +21,6 @@ public class HelpStrategy extends MessageCreateStrategy {
                 .append(getMessage("help.update.sections"));
         MessageChannel channel = message.getChannel().block();
         channel.createMessage(getMessage("help.displaying")+":\n" + help).block();
-        message.delete().block();
+        message.delete().onErrorResume(e -> Mono.empty()).block();
     }
 }

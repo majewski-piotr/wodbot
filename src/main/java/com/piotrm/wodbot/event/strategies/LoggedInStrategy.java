@@ -1,12 +1,16 @@
 package com.piotrm.wodbot.event.strategies;
 
+import com.piotrm.wodbot.event.listeners.message.MessageCreateListener;
 import com.piotrm.wodbot.service.PlayerCharacterService;
 import com.piotrm.wodbot.service.UserService;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import reactor.core.publisher.Mono;
 
 import java.util.Locale;
 import java.util.Optional;
@@ -25,6 +29,8 @@ public abstract class LoggedInStrategy extends MessageCreateStrategy {
     protected String operation;
     protected Optional<User> discordUser;
 
+    private static final Logger log = LoggerFactory.getLogger(LoggedInStrategy.class);
+
     public void setUp(MessageCreateEvent event) {
         this.discordUser = event.getMessage().getAuthor();
         this.userId = redisTemplate.opsForValue().get(discordUser.get().getId().asLong());
@@ -36,8 +42,7 @@ public abstract class LoggedInStrategy extends MessageCreateStrategy {
 
     public void sendResponse(String response) {
         this.message.getChannel().block().createMessage(response).block();
-        //TODO: HANDLE INSUFFICIENT PERMOSSION EXCEPTIONS
-        this.message.delete().block();
+        this.message.delete().onErrorResume(e -> Mono.empty()).block();
     }
 
     @Override
