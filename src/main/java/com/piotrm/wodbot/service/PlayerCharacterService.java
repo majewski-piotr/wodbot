@@ -96,23 +96,23 @@ public class PlayerCharacterService {
     }
 
     public boolean updateInfo(Long userId, String characterName, String fieldName, String newValue) {
-        PlayerCharacter playerCharacter = getCharacter(userId, characterName);
-        if (playerCharacter == null) {
+        Optional<PlayerCharacter> playerCharacter = getCharacter(userId, characterName);
+        if (!playerCharacter.isPresent()) {
             return false;
         }
-        playerCharacter.getInfo().put(fieldName, newValue);
-        playerCharacterRepository.save(playerCharacter);
+        playerCharacter.get().getInfo().put(fieldName, newValue);
+        playerCharacterRepository.save(playerCharacter.get());
         return true;
     }
 
     private boolean modifyCharacter(Long userId, String characterName, String fieldName, Byte newValue,
                                     Function<PlayerCharacter, Map<String, Byte>> transformer) {
-        PlayerCharacter playerCharacter = getCharacter(userId, characterName);
-        if (playerCharacter == null) {
+        Optional<PlayerCharacter> playerCharacter = getCharacter(userId, characterName);
+        if (!playerCharacter.isPresent()) {
             return false;
         }
-        transformer.apply(playerCharacter).put(fieldName, newValue);
-        playerCharacterRepository.save(playerCharacter);
+        transformer.apply(playerCharacter.get()).put(fieldName, newValue);
+        playerCharacterRepository.save(playerCharacter.get());
         return true;
     }
 }

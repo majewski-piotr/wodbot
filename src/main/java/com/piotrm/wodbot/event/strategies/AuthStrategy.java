@@ -23,7 +23,7 @@ public abstract class AuthStrategy extends  MessageCreateStrategy{
     }
 
     public void sendResponse(String response) {
-        this.message.getChannel().block().createMessage(response).block();
+        this.message.getChannel().block().createMessage(response).onErrorResume(e -> Mono.empty()).block();
         this.message.delete().onErrorResume(e -> Mono.empty()).block();
     }
 }
