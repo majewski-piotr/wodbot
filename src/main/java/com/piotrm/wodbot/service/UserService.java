@@ -37,6 +37,10 @@ public class UserService {
         return false;
     }
 
+    public Long getUserIdFromDiscordUser(discord4j.core.object.entity.User discordUser){
+        return redisTemplate.opsForValue().get(discordUser.getId().asLong());
+    }
+
     public boolean loginUser(String username, String password, Optional<discord4j.core.object.entity.User> discordUser) {
         if (authenticate(username, password) && discordUser.isPresent()) {
             Long snowflake = discordUser.get().getId().asLong();

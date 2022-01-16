@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class StatusStrategy extends AuthStrategy {
+public class StatusStrategy extends BaseStrategy {
 
     @Autowired
     private UserService userService;
@@ -15,7 +15,7 @@ public class StatusStrategy extends AuthStrategy {
     public void accept(MessageCreateEvent event) {
         setUp(event);
 
-        String response = userService.isLogged(discordUser.get()) ? getMessage("logged.yes") : getMessage("logged.no");
+        String response = userService.isLogged(getDiscordUser().get()) ? getMessage("logged.yes") : getMessage("logged.no");
 
         sendResponse(response);
     }

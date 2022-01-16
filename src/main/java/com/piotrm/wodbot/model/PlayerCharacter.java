@@ -25,3 +25,4 @@ public class PlayerCharacter {
     private Map<String, Byte> positions = new HashMap<>();
     private Map<String, Byte> resources = new HashMap<>();
 }
+

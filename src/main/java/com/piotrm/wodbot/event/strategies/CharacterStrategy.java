@@ -9,20 +9,23 @@ import java.util.Optional;
 import static com.piotrm.wodbot.event.listeners.message.MessageCreateListener.*;
 
 @Component
-public class CharacterStrategy extends LoggedInStrategy {
+public class CharacterStrategy extends BaseStrategy {
 
     @Override
     public void accept(MessageCreateEvent event) {
         setUp(event);
 
+        String operation = getData()[0];
+        String characterName = getData()[1];
+
         String response = getMessage("general.fail");
-        if (field1.equals(GET)) {
-            Optional<PlayerCharacter> playerCharacter = playerCharacterService.getCharacter(userId, field2);
+        if (operation.equals(GET)) {
+            Optional<PlayerCharacter> playerCharacter = playerCharacterService.getCharacter(getUserId().get(), characterName);
             if (playerCharacter.isPresent()) {
-                response = playerCharacterService.toString(playerCharacter.get(), getLocale());
+                response = playerCharacterService.toString(playerCharacter.get(), getLocale().get());
             }
-        } else if (field1.equals(CREATE)) {
-            response = playerCharacterService.saveNew(userId, field2) ? getMessage("create.success") : getMessage("create.fail");
+        } else if (operation.equals(CREATE)) {
+            response = playerCharacterService.saveNew(getUserId().get(), characterName) ? getMessage("create.success") : getMessage("create.fail");
         }
         sendResponse(response);
     }
