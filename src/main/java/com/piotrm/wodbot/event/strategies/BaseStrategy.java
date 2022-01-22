@@ -6,6 +6,7 @@ import com.piotrm.wodbot.service.UserService;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.User;
+import discord4j.core.object.reaction.ReactionEmoji;
 import lombok.Getter;
 import lombok.Setter;
 import org.slf4j.Logger;
@@ -48,6 +49,12 @@ public abstract class BaseStrategy implements EventStrategy<MessageCreateEvent>{
 
     public void sendResponse(String response) {
         this.message.getChannel().block().createMessage(response).onErrorResume(e -> Mono.empty()).block();
+        this.message.delete().onErrorResume(e -> Mono.empty()).block();
+    }
+    public void sendResponse(String response,String unicodeEmoji) {
+        this.message.getChannel().block().createMessage(response).flatMap(
+                msg -> msg.addReaction(ReactionEmoji.unicode(unicodeEmoji))
+        ).onErrorResume(e -> Mono.empty()).block();
         this.message.delete().onErrorResume(e -> Mono.empty()).block();
     }
 

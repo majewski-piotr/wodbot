@@ -35,10 +35,10 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
     @Autowired
     public MessageCreateListener(RegisterStrategy registerStrategy, LoginStrategy loginStrategy, StatusStrategy statusStrategy,
                                  CharacterStrategy characterStrategy, UpdateStrategy updateStrategy, HelpStrategy helpStrategy,
-                                 SettingsStrategy settingsStrategy) {
-        regularMatcher.put("[0-9]+", new CalculateRollStrategy(false, false));
-        regularMatcher.put("[0-9]+\\s+[0-9]+", new CalculateRollStrategy(true, false));
-        regularMatcher.put("[0-9]+\\s+[0-9]+\\s\\+", new CalculateRollStrategy(true, true));
+                                 SettingsStrategy settingsStrategy, CalculateRollStrategy calculateRollStrategy) {
+        regularMatcher.put("[0-9]+", calculateRollStrategy);
+        regularMatcher.put("[0-9]+\\s+[0-9]+", calculateRollStrategy);
+        regularMatcher.put("[0-9]+\\s+[0-9]+\\s\\+", calculateRollStrategy);
         regularMatcher.put("\\s*((?i)\\b(" + REGISTER + ")\\b)\\s+\\S+\\s+\\S+\\s+\\S+\\s*", registerStrategy);
         regularMatcher.put("\\s*((?i)\\b(" + LOGIN + ")\\b)\\s+\\S+\\s+\\S+\\s*", loginStrategy);
         regularMatcher.put("\\s*((?i)\\b(" + STATUS + ")\\b)\\s*", statusStrategy);

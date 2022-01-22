@@ -16,7 +16,9 @@ public class HelpStrategy extends BaseStrategy {
                 .append(getMessage("help.register")).append(getMessage("help.login"))
                 .append(getMessage("help.banner.loggedUsers")).append(getMessage("help.create"))
                 .append(getMessage("help.get")).append(getMessage("help.update"))
-                .append(getMessage("help.update.sections"));
+                .append(getMessage("help.update.sections"))
+                .append(getMessage("help.settings"))
+                .append(getMessage("help.settings.languages"));
 
         sendResponse(getMessage("help.displaying")+":\n" + help);
     }
