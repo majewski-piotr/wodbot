@@ -9,7 +9,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
 @Component
-public class RegisterStrategy extends AuthStrategy {
+public class RegisterStrategy extends BaseStrategy {
 
     @Autowired
     private UserService userService;
@@ -18,11 +18,15 @@ public class RegisterStrategy extends AuthStrategy {
     public void accept(MessageCreateEvent event) {
         setUp(event);
 
-        String response = null;
+        String email = getData()[1];
+        String username = getData()[2];
+        String password = getData()[3];
+
+        String response;
         try {
-            response = userService.saveNewUser(data[1], data[2], data[3]) ? "Zapisano nowego użytkonika" : "Coś poszło nie tak";
+            response = userService.saveNewUser(email, username, password) ? getMessage("register.success") : getMessage("register.fail");
         } catch (ConstraintViolationException e) {
-            StringBuilder errorMsg = new StringBuilder("Błędne: ");
+            StringBuilder errorMsg = new StringBuilder(getMessage("register.invalid"));
             for (ConstraintViolation violation : e.getConstraintViolations()) {
                 errorMsg.append(violation.getPropertyPath());
             }

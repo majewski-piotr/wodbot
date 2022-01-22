@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Locale;
 
 @Getter
 @Setter
@@ -30,6 +31,6 @@ public class User {
     @Column(nullable = false, length = 64)
     private String password;
 
-    @Column(name = "language", nullable = false, length = 20)
-    private String language;
+    @Column(name = "locale", nullable = false, length = 20)
+    private Locale locale;
 }
