@@ -1,4 +1,4 @@
-package com.piotrm.wodbot.auth;
+package com.piotrm.wodbot.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

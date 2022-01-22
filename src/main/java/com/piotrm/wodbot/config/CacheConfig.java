@@ -1,4 +1,4 @@
-package com.piotrm.wodbot.cache;
+package com.piotrm.wodbot.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -6,7 +6,7 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 @Configuration
-public class CasheConfig {
+public class CacheConfig {
 
     @Bean
     public RedisTemplate<Long, Long> redisTemplate(RedisConnectionFactory connectionFactory) {
