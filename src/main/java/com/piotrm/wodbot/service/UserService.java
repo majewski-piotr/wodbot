@@ -15,14 +15,16 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    @Autowired
     private UserRepository userRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
+    private RedisTemplate<Long, Long> redisTemplate;
 
     @Autowired
-    private RedisTemplate<Long, Long> redisTemplate;
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, RedisTemplate<Long, Long> redisTemplate){
+        this.userRepository = userRepository;
+        this.redisTemplate = redisTemplate;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public boolean saveNewUser(String email, String username, String password) {
         if (!userRepository.findUserByEmail(email).isPresent()) {
