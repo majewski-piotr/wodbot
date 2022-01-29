@@ -11,19 +11,13 @@ import java.util.stream.Collectors;
 @Component
 public class CalculateRollStrategy extends BaseStrategy {
 
-    private boolean withDifficulty;
-    private boolean specialised;
-
     @Override
     public void accept(MessageCreateEvent event) {
         setUp(event);
 
-        if (getData().length > 2) {
-            specialised = true;
-        }
-        if (getData().length > 1) {
-            withDifficulty = true;
-        }
+        boolean specialised = getData().length > 2;
+        boolean withDifficulty = getData().length > 1;
+
         String response = null;
         try {
             List<Integer> rolls = getRolls(Integer.parseInt(getData()[0]));
