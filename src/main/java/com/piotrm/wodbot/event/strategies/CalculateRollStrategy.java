@@ -25,12 +25,12 @@ public class CalculateRollStrategy extends BaseStrategy {
                 int difficulty = Integer.parseInt(getData()[1]);
                 int successes = getSuccesses(rolls, difficulty, specialised);
 
-                response = getAuthor(getMessage()) + " " + getMessage("roll.throws") + " " +
-                        (specialised ? getMessage("roll.withSpeciality") : ":") + "\n" + rollsToString(rolls) +
-                        String.format("\n" + getMessage("roll.difficulty") + ": **%s**\n" +
-                                getMessage("roll.successes") + ": **%s**", difficulty, successes);
+                response = getAuthor(getMessage()) + " " + "throws" + " " +
+                        (specialised ? "With speciality" : ":") + "\n" + rollsToString(rolls) +
+                        String.format("\n" + "with difficulty" + ": **%s**\n" +
+                                "successes" + ": **%s**", difficulty, successes);
             } else {
-                response = getAuthor(getMessage()) + " " + getMessage("roll.throws") + "\n" + rollsToString(rolls);
+                response = getAuthor(getMessage()) + " " + "rolls" + "\n" + rollsToString(rolls);
             }
         } catch (NullPointerException e) {
         } finally {

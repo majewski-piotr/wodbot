@@ -11,15 +11,15 @@ public class HelpStrategy extends BaseStrategy {
         setUp(event);
         StringBuilder help = new StringBuilder();
 
-        help.append(getMessage("help.banner.allUsers")).append(getMessage("help.roll.simple"))
-                .append(getMessage("help.roll.difficulty")).append(getMessage("help.roll.specialized"))
-                .append(getMessage("help.register")).append(getMessage("help.login"))
-                .append(getMessage("help.banner.loggedUsers")).append(getMessage("help.create"))
-                .append(getMessage("help.get")).append(getMessage("help.update"))
-                .append(getMessage("help.update.sections"))
-                .append(getMessage("help.settings"))
-                .append(getMessage("help.settings.languages"));
+        help.append("help.banner.allUsers").append("help.roll.simple")
+                .append("help.roll.difficulty").append("help.roll.specialized")
+                .append("help.register").append("help.login")
+                .append("help.banner.loggedUsers").append("help.create")
+                .append("help.get").append("help.update")
+                .append("help.update.sections")
+                .append("help.settings")
+                .append("help.settings.languages");
 
-        sendResponse(getMessage("help.displaying")+":\n" + help);
+        sendResponse("help.displaying" + ":\n" + help);
     }
 }
