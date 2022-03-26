@@ -11,15 +11,12 @@ public class HelpStrategy extends BaseStrategy {
         setUp(event);
         StringBuilder help = new StringBuilder();
 
-        help.append("help.banner.allUsers").append("help.roll.simple")
-                .append("help.roll.difficulty").append("help.roll.specialized")
-                .append("help.register").append("help.login")
-                .append("help.banner.loggedUsers").append("help.create")
-                .append("help.get").append("help.update")
-                .append("help.update.sections")
-                .append("help.settings")
-                .append("help.settings.languages");
+        help.append("Simple guide. type:\n")
+                .append("`5` for simple roll\n")
+                .append("`6 7` to roll six dices with difficulty 7\n")
+                .append("`3 6 +` to roll 3 dices with difficulty six and specialisation\n")
+                .append("`4 6 d` to roll damage related roll (`1` on dice will not substract successes)");
 
-        sendResponse("help.displaying" + ":\n" + help);
+        sendResponse(help.toString());
     }
 }

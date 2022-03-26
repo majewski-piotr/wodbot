@@ -18,18 +18,21 @@ public abstract class BaseStrategy implements EventStrategy<MessageCreateEvent>{
 
     private static final Logger log = LoggerFactory.getLogger(BaseStrategy.class);
 
-
-
     private Message message;
     private String[] data;
 
-    public void setUp(MessageCreateEvent event) {
+    protected void setUp(MessageCreateEvent event) {
         this.message = event.getMessage();
         this.data = event.getMessage().getContent().split("\\s+");
     }
 
-    public void sendResponse(String response) {
+    protected void sendResponse(String response) {
         this.message.getChannel().block().createMessage(response).onErrorResume(e -> Mono.empty()).block();
         this.message.delete().onErrorResume(e -> Mono.empty()).block();
     }
+
+    protected String getAuthor() {
+        return this.message.getAuthor().get().getMention();
+    }
+
 }

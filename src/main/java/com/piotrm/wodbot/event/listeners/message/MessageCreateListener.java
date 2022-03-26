@@ -15,16 +15,14 @@ import java.util.regex.Pattern;
 @Service
 public class MessageCreateListener implements EventListener<MessageCreateEvent> {
 
-    public static final String HELP = "help";
-
     private Map<String, EventStrategy> regularMatcher = new HashMap<>();
 
-    @Autowired
-    public MessageCreateListener(HelpStrategy helpStrategy, CalculateRollStrategy calculateRollStrategy) {
-        regularMatcher.put("[0-9]+", calculateRollStrategy);
-        regularMatcher.put("[0-9]+\\s+[0-9]+", calculateRollStrategy);
-        regularMatcher.put("[0-9]+\\s+[0-9]+\\s\\+", calculateRollStrategy);
-        regularMatcher.put("\\s*((?i)\\b(" + HELP + "|pomocy?)\\b)\\s*", helpStrategy);
+    public MessageCreateListener() {
+        regularMatcher.put("[0-9]+", new RollStrategy());
+        regularMatcher.put("[0-9]+\\s+[0-9]+", new RollWithDifficultyStrategy());
+        regularMatcher.put("[0-9]+\\s+[0-9]+\\s\\+", new RollWithSpecialization());
+        regularMatcher.put("[0-9]+\\s+[0-9]+\\sd", new RollDamage());
+        regularMatcher.put("help", new HelpStrategy());
     }
 
     private static final Logger log = LoggerFactory.getLogger(MessageCreateListener.class);
