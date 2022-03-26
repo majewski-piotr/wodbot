@@ -2,17 +2,13 @@ package com.piotrm.wodbot.event.strategies;
 
 import discord4j.core.event.domain.message.MessageCreateEvent;
 
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-public class RollDamage extends RollWithDifficultyStrategy{
+public class RollDamage extends RollWithDifficulty {
 
     @Override
     protected void setSuccesses() {
-        passed = 0;
-        for (int roll : super.getRolls()) {
+        for (int roll : rolls) {
             if (roll >= difficulty)
-                passed++;
+                successess++;
         }
     }
 

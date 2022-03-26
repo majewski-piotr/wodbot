@@ -43,7 +43,7 @@
 			<groupId>org.openjfx</groupId>
 			<artifactId>javafx-graphics</artifactId>
 			<version>17</version>
-			<classifier>win</classifier>
+<!--			<classifier>win</classifier>-->
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

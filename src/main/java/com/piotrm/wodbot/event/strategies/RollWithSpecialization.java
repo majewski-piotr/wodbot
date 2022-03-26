@@ -2,13 +2,12 @@ package com.piotrm.wodbot.event.strategies;
 
 import discord4j.core.event.domain.message.MessageCreateEvent;
 
-public class RollWithSpecialization extends RollWithDifficultyStrategy {
+public class RollWithSpecialization extends RollWithDifficulty {
 
-    private int additionalSuccesses;
     private void setAdditionalSuccesses() {
-        for (int i : super.getRolls()) {
+        for (int i : super.rolls) {
             if (i == 10) {
-                this.additionalSuccesses++;
+                successess++;
             }
         }
     }
@@ -27,7 +26,7 @@ public class RollWithSpecialization extends RollWithDifficultyStrategy {
                 getRollsAsString().replace(" 10 "," **10** "),
                 passed,
                 ones,
-                passed - ones + additionalSuccesses);
+                successess);
 
         sendResponse(response);
     }

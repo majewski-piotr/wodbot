@@ -1,18 +1,15 @@
 package com.piotrm.wodbot.event.strategies;
 
-import discord4j.core.event.domain.message.MessageCreateEvent;
-
 import java.util.Arrays;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 
-public class RollStrategy extends BaseStrategy {
-    private int dicePool;
-    private int[] rolls;
+public class Roll extends MessageCreateEventStrategy {
+    protected int dicePool;
+    protected int[] rolls;
 
     @Override
-    public void accept(MessageCreateEvent event) {
+    public void accept(discord4j.core.event.domain.message.MessageCreateEvent event) {
         setUp(event);
 
         String response = String.format("%s rolls \n %s",getAuthor(),getRollsAsString());
@@ -21,14 +18,14 @@ public class RollStrategy extends BaseStrategy {
     }
 
     @Override
-    protected void setUp(MessageCreateEvent event) {
+    protected void setUp(discord4j.core.event.domain.message.MessageCreateEvent event) {
         super.setUp(event);
         setDicePool();
         setRolls();
     }
 
     private void setDicePool() {
-        this.dicePool = Integer.parseInt(getData()[0]);
+        this.dicePool = Integer.parseInt(data[0]);
     }
 
     private void setRolls() {
@@ -37,10 +34,6 @@ public class RollStrategy extends BaseStrategy {
             int roll = ((int) ((Math.random() * 10) + 1));
             this.rolls[i] = roll;
         }
-    }
-
-    protected int [] getRolls(){
-        return rolls;
     }
 
     protected String getRollsAsString(){

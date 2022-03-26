@@ -1,27 +1,15 @@
 package com.piotrm.wodbot.event.strategies;
 
-import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Message;
-import lombok.Getter;
-import lombok.Setter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
+import discord4j.core.event.domain.message.MessageCreateEvent;
 import reactor.core.publisher.Mono;
 
-import java.util.Locale;
+public abstract class MessageCreateEventStrategy implements EventStrategy<MessageCreateEvent>{
 
-@Component
-@Getter
-@Setter
-public abstract class BaseStrategy implements EventStrategy<MessageCreateEvent>{
+    protected Message message;
+    protected String[] data;
 
-    private static final Logger log = LoggerFactory.getLogger(BaseStrategy.class);
-
-    private Message message;
-    private String[] data;
-
-    protected void setUp(MessageCreateEvent event) {
+    protected void setUp(discord4j.core.event.domain.message.MessageCreateEvent event) {
         this.message = event.getMessage();
         this.data = event.getMessage().getContent().split("\\s+");
     }
