@@ -25,7 +25,7 @@ public class RollDamage extends RollWithDifficulty {
                 super.getAuthor(),
                 getRollsAsString(),
                 difficulty,
-                passed);
+                successess);
 
         sendResponse(response);
     }

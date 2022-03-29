@@ -21,9 +21,10 @@ public class RollWithSpecialization extends RollWithDifficulty {
     @Override
     public void accept(MessageCreateEvent event) {
         setUp(event);
-        String response = String.format("%s rolls with specialisation\n%s\npassed\t%d\nones\t%d\nsuccessess **%d**",
+        String response = String.format("%s rolls with specialisation\n%s\ndifficulty\t%d\npassed\t%d\nones\t%d\nsuccessess **%d**",
                 getAuthor(),
                 getRollsAsString().replace(" 10 "," **10** "),
+                difficulty,
                 passed,
                 ones,
                 successess);
