@@ -3,7 +3,6 @@ package com.piotrm.wodbot.event.strategies;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-
 public class Roll extends MessageCreateEventStrategy {
     protected int dicePool;
     protected int[] rolls;

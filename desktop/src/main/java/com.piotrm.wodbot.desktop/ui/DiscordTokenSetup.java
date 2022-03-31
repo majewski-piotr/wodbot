@@ -1,9 +1,10 @@
-package com.piotrm.wodbot.ui;
+package com.piotrm.wodbot.desktop.ui;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -30,7 +31,7 @@ public class DiscordTokenSetup extends Application implements Runnable {
     public void start(Stage stage) throws IOException {
         stage.setTitle("Wodbot app");
         stage.setScene(getSetupScene(stage));
-        stage.setOnCloseRequest((event) -> {
+        stage.setOnCloseRequest(e -> {
             isRunning = false;
             System.exit(0);
         });

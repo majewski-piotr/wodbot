@@ -2,27 +2,23 @@
 <launch4jConfig>
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
-  <jar>/Users/pmajewski/side/piortm/wodbot2/target/Wodbot-0.0.1-SNAPSHOT.jar</jar>
-  <outfile>/Users/pmajewski/side/piortm/wodbot2/target/wodbot.exe</outfile>
+  <jar>../../../build/libs/desktop.jar</jar>
+  <outfile>../../../build/libs/wodbot.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
   <priority>normal</priority>
-  <downloadUrl>http://java.com/download</downloadUrl>
+  <downloadUrl>https://www.oracle.com/pl/java/technologies/javase/jdk11-archive-downloads.html</downloadUrl>
   <supportUrl></supportUrl>
   <stayAlive>false</stayAlive>
   <restartOnCrash>false</restartOnCrash>
   <manifest></manifest>
-  <icon>/Users/pmajewski/side/piortm/wodbot2/src/main/resources/vampire.ico</icon>
-  <singleInstance>
-    <mutexName>singleWodbot</mutexName>
-    <windowTitle></windowTitle>
-  </singleInstance>
+  <icon>vampire.ico</icon>
   <jre>
     <path></path>
     <bundledJre64Bit>false</bundledJre64Bit>
     <bundledJreAsFallback>false</bundledJreAsFallback>
-    <minVersion>1.11.0</minVersion>
+    <minVersion>11.0.13</minVersion>
     <maxVersion></maxVersion>
     <jdkPreference>preferJre</jdkPreference>
     <runtimeBits>64/32</runtimeBits>

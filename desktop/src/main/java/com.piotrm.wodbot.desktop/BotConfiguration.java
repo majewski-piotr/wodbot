@@ -1,28 +1,23 @@
-package com.piotrm.wodbot;
+package com.piotrm.wodbot.desktop;
 
 import com.piotrm.wodbot.event.listeners.EventListener;
-import com.piotrm.wodbot.ui.DiscordTokenSetup;
+import com.piotrm.wodbot.desktop.ui.DiscordTokenSetup;
 import discord4j.core.DiscordClientBuilder;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.Event;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.task.SimpleAsyncTaskExecutor;
-import org.springframework.core.task.TaskExecutor;
 
 import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.function.Consumer;
 
 @Configuration
+@ComponentScan("com.piotrm.wodbot")
 public class BotConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(BotConfiguration.class);

@@ -1,1 +1,5 @@
 rootProject.name = 'Wodbot'
+
+include 'desktop'
+include 'common'
+
