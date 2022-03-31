@@ -1,0 +1,17 @@
+def platform = this.property('platform')
+
+dependencies {
+    implementation project(":common")
+    implementation 'org.openjfx:javafx-graphics:11:' + platform
+    implementation 'org.openjfx:javafx-fxml:11:' + platform
+    implementation 'org.openjfx:javafx-swing:11:' + platform
+    implementation 'org.openjfx:javafx-controls:11:' + platform
+    implementation 'org.openjfx:javafx-base:11:' + platform
+
+}
+
+
+tasks.register('winExe', Exec) {
+    commandLine 'bash', '-c', 'launch4j src/main/resources/wrapperConfig.xml'
+    dependsOn ':desktop:build'
+}

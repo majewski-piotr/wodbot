@@ -37,4 +37,11 @@ build/
 ### VS Code ###
 .vscode/
 
+### Gradle ###
+.gradle
+gradle.properties
+!/desktop/gradle.properties
+
+### Jenv ###
+.java-version
 

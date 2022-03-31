@@ -1,0 +1,41 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version "2.6.4"
+}
+
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: "org.springframework.boot"
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter:2.6.4'
+        implementation 'org.springframework.boot:spring-boot-starter-web:2.6.4'
+        implementation 'org.projectlombok:lombok:1.18.22'
+        implementation 'com.discord4j:discord4j-core:3.2.0'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.4'
+    }
+}
+
+repositories {
+    mavenLocal()
+    maven {
+        url = uri('https://repo.maven.apache.org/maven2/')
+    }
+}
+bootJar {
+    enabled = false
+}
+
+
+group = 'com.piotrm'
+version = '0.0.1-SNAPSHOT'
+description = 'Wodbot'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
