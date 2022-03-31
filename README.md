@@ -1,8 +1,5 @@
 <h1 align="center">World of Darkness discord bot</h1>
 
-<p align="center"><project-description></p>
-
-## What is this
 This is simple discord bot for rolling dices on discord chanels for World of Darkness games.
 Currently it supports four types of common rolls: plain, with set difficulty and with specialization, 
 and damage related (where 1s do not substract successes). There are few subprojects:
