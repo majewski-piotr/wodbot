@@ -45,3 +45,8 @@ gradle.properties
 ### Jenv ###
 .java-version
 
+## Terraform ###
+/cloud/infrastructure/terraform/aws/terraform.tfvars
+/cloud/infrastructure/aws/credentials
+/cloud/infrastructure/aws/.terraform.lock.hcl
+/cloud/infrastructure/aws/.terraform/
