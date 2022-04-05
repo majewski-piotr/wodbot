@@ -1,2 +1,4 @@
+apply plugin: "org.springframework.boot"
+
 jar.enabled = true
 bootJar.enabled = false
