@@ -1,29 +1,31 @@
 package com.piotrm.wodbot.cloud;
 
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Application {
-    private final LambdaLogger logger;
     private final HashMap request;
     private final RequestValidator requestValidator;
 
-    public Application(LambdaLogger logger, HashMap request, RequestValidator requestValidator) {
-        this.logger = logger;
+    private static final Logger logger = LoggerFactory.getLogger(Application.class);
+
+    public Application(HashMap request, RequestValidator requestValidator) {
         this.request = request;
         this.requestValidator = requestValidator;
     }
 
     public ApiGatewayResponse run(){
+
         // process event
-        logger.log("EVENT BODY: " + request.get("body"));
-        logger.log("Headers: "+request.get("headers"));
+        logger.info("EVENT BODY: " + request.get("body"));
+        logger.info("Headers: "+request.get("headers"));
 
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
@@ -63,7 +65,7 @@ public class Application {
                     .build();
         }
 
-        logger.log("response body: " + response.getBody());
+        logger.info("response body: " + response.getBody());
         return response;
     }
 }

@@ -11,6 +11,12 @@ dependencies {
     implementation 'org.openjfx:javafx-controls:11:' + platform
     implementation 'org.openjfx:javafx-base:11:' + platform
 
+    implementation 'org.springframework.boot:spring-boot-starter:2.6.4'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.4'
+    implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'com.discord4j:discord4j-core:3.2.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.4'
+
 }
 
 
