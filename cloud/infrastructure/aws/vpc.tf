@@ -9,6 +9,15 @@ resource "aws_vpc" "main" {
   }
 }
 
+resource "aws_vpc_endpoint" "secret_manager_endpoint" {
+  vpc_id       = aws_vpc.main.id
+  service_name = "com.amazonaws.eu-central-1.secretsmanager"
+  security_group_ids = [aws_security_group.main.id]
+  vpc_endpoint_type = "Interface"
+  subnet_ids = [aws_subnet.main-private-1.id]
+  private_dns_enabled = true
+}
+
 resource "aws_subnet" "main-public-1" {
   vpc_id                  = aws_vpc.main.id
   cidr_block              = "10.0.0.0/24"

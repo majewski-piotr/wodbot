@@ -19,14 +19,14 @@ EOF
 resource "aws_apigatewayv2_integration" "hello_world" {
   api_id = aws_apigatewayv2_api.dummy-api.id
 
-  integration_uri    = aws_lambda_function.java_lambda_function.invoke_arn
-  integration_type   = "AWS_PROXY"
+  integration_uri  = aws_lambda_function.java_lambda_function.invoke_arn
+  integration_type = "AWS_PROXY"
   integration_method = "POST"
 }
 
 resource "aws_apigatewayv2_route" "hello_world" {
   api_id = aws_apigatewayv2_api.dummy-api.id
 
-  route_key = "GET /hello"
+  route_key = "POST /interactions"
   target    = "integrations/${aws_apigatewayv2_integration.hello_world.id}"
 }

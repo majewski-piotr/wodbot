@@ -1,9 +1,9 @@
 resource "aws_lambda_function" "java_lambda_function" {
   depends_on       = [aws_security_group.main]
   runtime          = "java11"
-  filename         = "../../build/libs/cloud.jar"
-  source_code_hash = filebase64sha256("../../build/libs/cloud.jar")
-  function_name    = "${var.name}-lambda"
+  filename         = "../../build/distributions/cloud.zip"
+  source_code_hash = filebase64sha256("../../build/distributions/cloud.zip")
+  function_name    = "${var.name}"
   handler          = "com.piotrm.wodbot.cloud.LambdaAPI"
   timeout          = 900
   memory_size      = 256
@@ -12,6 +12,13 @@ resource "aws_lambda_function" "java_lambda_function" {
   vpc_config {
     subnet_ids         = [aws_subnet.main-private-1.id]
     security_group_ids = [aws_security_group.main.id]
+  }
+  environment {
+    variables = {
+      SECRET_NAME_CLIENT_ID = aws_secretsmanager_secret.client_id.name
+      SECRET_NAME_CLIENT_SECRET = aws_secretsmanager_secret.client_secret.name
+      SECRET_NAME_PUBLIC_KEY = aws_secretsmanager_secret.public_key.name
+    }
   }
 }
 
@@ -27,4 +34,8 @@ resource "aws_lambda_permission" "api_invoke" {
   principal     = "apigateway.amazonaws.com"
   source_arn    = "${aws_apigatewayv2_api.dummy-api.execution_arn}/*/*"
   action        = "lambda:InvokeFunction"
+}
+resource "aws_cloudwatch_log_group" "log_group" {
+  name              = "/aws/lambda/${var.name}"
+  retention_in_days = 7
 }

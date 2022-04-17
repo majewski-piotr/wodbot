@@ -41,6 +41,9 @@ build/
 .gradle
 gradle.properties
 !/desktop/gradle.properties
+/cloud/out/
+/desktop/out/
+/common/out/
 
 ### Jenv ###
 .java-version
@@ -50,3 +53,5 @@ gradle.properties
 /cloud/infrastructure/aws/credentials
 /cloud/infrastructure/aws/.terraform.lock.hcl
 /cloud/infrastructure/aws/.terraform/
+/cloud/infrastructure/aws/terraform.tfvars
+

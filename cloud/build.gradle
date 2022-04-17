@@ -1,7 +1,18 @@
 dependencies {
     implementation 'com.amazonaws:aws-lambda-java-core:1.2.0'
+    implementation 'com.amazonaws:aws-java-sdk-secretsmanager:1.12.1'
+    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'software.pando.crypto:salty-coffee:1.0.4'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtimeClasspath
+    }
 }
 
 test {
