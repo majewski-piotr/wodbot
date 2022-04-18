@@ -1,14 +1,29 @@
 package com.piotrm.wodbot.cloud;
 
+
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
+import org.apache.commons.lang3.time.StopWatch;
+import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
+import software.amazon.awssdk.core.internal.http.loader.DefaultSdkHttpClientBuilder;
+import software.amazon.awssdk.http.ExecutableHttpRequest;
+import software.amazon.awssdk.http.HttpExecuteRequest;
+import software.amazon.awssdk.http.HttpExecuteResponse;
+import software.amazon.awssdk.http.SdkHttpClient;
+import software.amazon.awssdk.http.async.SdkAsyncHttpClient;
+import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient;
+import software.amazon.awssdk.regions.Region;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.http.HttpClient;
 import java.util.HashMap;
 
-import static com.piotrm.wodbot.cloud.SystemProvider.EnvironmentVariabes.*;
+import static com.piotrm.wodbot.cloud.SecretProvider.getSecret;
 
 public class LambdaAPI implements RequestHandler<HashMap, ApiGatewayResponse> {
 
@@ -16,27 +31,24 @@ public class LambdaAPI implements RequestHandler<HashMap, ApiGatewayResponse> {
 
     @Override
     public ApiGatewayResponse handleRequest(HashMap event, Context context) {
-        logger.info("Setting up System Provider");
-        SystemProvider systemProvider = new SystemProvider();
-        logger.info("Setting up Secret Provider");
-        logger.info("Using sys variable AWS_REGION: " + systemProvider.getEnv(AWS_REGION));
-        SecretProvider secretProvider = new SecretProvider(
-                systemProvider.getEnv(AWS_REGION)
-        );
-        logger.info("Setting up Request Validator");
-        logger.info("Using sys variable SECRET_NAME_PUBLIC_KEY: " + SECRET_NAME_PUBLIC_KEY.name());
+
+
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        logger.debug("SecretsManagerClient build time: " + stopWatch.getTime());
+
+
         RequestValidator requestValidator = new RequestValidator(
-                secretProvider.getSecret(
-                        systemProvider.getEnv(SECRET_NAME_PUBLIC_KEY)
+                getSecret(
+                        System.getenv("SECRET_NAME_PUBLIC_KEY")
                 )
         );
-        logger.info("Setting up Application");
         Application application = new Application(
                 event,
                 requestValidator
         );
 
-        logger.info("Application run!");
+        logger.debug("Application run!");
         return application.run();
     }
 }

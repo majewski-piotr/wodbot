@@ -15,10 +15,15 @@ resource "aws_lambda_function" "java_lambda_function" {
   }
   environment {
     variables = {
-      SECRET_NAME_CLIENT_ID = aws_secretsmanager_secret.client_id.name
+      SECRET_NAME_CLIENT_ID     = aws_secretsmanager_secret.client_id.name
       SECRET_NAME_CLIENT_SECRET = aws_secretsmanager_secret.client_secret.name
-      SECRET_NAME_PUBLIC_KEY = aws_secretsmanager_secret.public_key.name
+      SECRET_NAME_PUBLIC_KEY    = aws_secretsmanager_secret.public_key.name
+      AWS_CSM_ENABLED           = "false"
+      JAVA_TOOL_OPTIONS         = "-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
     }
+  }
+  tracing_config {
+    mode = "Active"
   }
 }
 

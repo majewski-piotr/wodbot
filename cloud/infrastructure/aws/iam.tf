@@ -45,3 +45,8 @@ resource "aws_iam_role_policy" "wodbot_secrets_policy" {
     ]
   })
 }
+
+resource "aws_iam_role_policy_attachment" "aws_xray_write_only_access" {
+  role       = aws_iam_role.iam_role_for_lambda.name
+  policy_arn = "arn:aws:iam::aws:policy/AWSXrayWriteOnlyAccess"
+}
