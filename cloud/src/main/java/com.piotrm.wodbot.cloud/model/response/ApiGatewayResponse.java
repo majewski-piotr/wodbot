@@ -1,4 +1,4 @@
-package com.piotrm.wodbot.cloud;
+package com.piotrm.wodbot.cloud.model.response;
 
 import java.util.Collections;
 import java.util.Map;

@@ -4,9 +4,9 @@ resource "aws_lambda_function" "java_lambda_function" {
   filename         = "../../build/distributions/cloud.zip"
   source_code_hash = filebase64sha256("../../build/distributions/cloud.zip")
   function_name    = "${var.name}"
-  handler          = "com.piotrm.wodbot.cloud.LambdaAPI"
+  handler          = "com.piotrm.wodbot.cloud.Handler"
   timeout          = 900
-  memory_size      = 256
+  memory_size      = 832
   role             = aws_iam_role.iam_role_for_lambda.arn
 
   vpc_config {
@@ -26,6 +26,17 @@ resource "aws_lambda_function" "java_lambda_function" {
     mode = "Active"
   }
 }
+resource "aws_lambda_function_url" "test_live" {
+  function_name      = aws_lambda_function.java_lambda_function.function_name
+  authorization_type = "NONE"
+
+  cors {
+    allow_credentials = true
+    allow_origins     = ["*"]
+    allow_methods     = ["POST"]
+    max_age           = 86400
+  }
+}
 
 resource "aws_lambda_function_event_invoke_config" "lambda_configuration" {
   function_name                = aws_lambda_function.java_lambda_function.function_name
@@ -33,13 +44,6 @@ resource "aws_lambda_function_event_invoke_config" "lambda_configuration" {
   maximum_retry_attempts       = 0
 }
 
-resource "aws_lambda_permission" "api_invoke" {
-  function_name = aws_lambda_function.java_lambda_function.function_name
-  statement_id  = "allow_wodbot_api_gateway_to_invoke_lambda"
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_apigatewayv2_api.dummy-api.execution_arn}/*/*"
-  action        = "lambda:InvokeFunction"
-}
 resource "aws_cloudwatch_log_group" "log_group" {
   name              = "/aws/lambda/${var.name}"
   retention_in_days = 7
