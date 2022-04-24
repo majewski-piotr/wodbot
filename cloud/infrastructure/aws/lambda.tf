@@ -6,7 +6,7 @@ resource "aws_lambda_function" "java_lambda_function" {
   function_name    = "${var.name}"
   handler          = "com.piotrm.wodbot.cloud.Handler"
   timeout          = 900
-  memory_size      = 832
+  memory_size      = 2000
   role             = aws_iam_role.iam_role_for_lambda.arn
 
   vpc_config {
