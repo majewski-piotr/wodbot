@@ -8,7 +8,7 @@ public class Body {
     private String guild_locale;
     private String id;
     private String locale;
-    private Object member;
+    private Member member;
     private String token;
     private byte type;
     private byte version;
@@ -69,11 +69,11 @@ public class Body {
         this.locale = locale;
     }
 
-    public Object getMember() {
+    public Member getMember() {
         return member;
     }
 
-    public void setMember(Object member) {
+    public void setMember(Member member) {
         this.member = member;
     }
 
@@ -99,5 +99,22 @@ public class Body {
 
     public void setVersion(byte version) {
         this.version = version;
+    }
+
+    @Override
+    public String toString() {
+        return "Body{" +
+                "application_id='" + application_id + '\'' +
+                ", channel_id='" + channel_id + '\'' +
+                ", data=" + data +
+                ", guild_id='" + guild_id + '\'' +
+                ", guild_locale='" + guild_locale + '\'' +
+                ", id='" + id + '\'' +
+                ", locale='" + locale + '\'' +
+                ", member=" + member +
+                ", token='" + token + '\'' +
+                ", type=" + type +
+                ", version=" + version +
+                '}';
     }
 }

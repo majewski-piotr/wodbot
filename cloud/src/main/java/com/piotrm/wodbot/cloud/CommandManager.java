@@ -3,11 +3,12 @@ package com.piotrm.wodbot.cloud;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.piotrm.wodbot.cloud.model.request.Body;
-import com.piotrm.wodbot.cloud.model.request.Data;
-import com.piotrm.wodbot.cloud.model.request.Options;
+import com.piotrm.wodbot.cloud.model.request.*;
 import com.piotrm.wodbot.cloud.model.response.ApiGatewayResponse;
-import com.piotrm.wodbot.roll.BasicRoll;
+import com.piotrm.wodbot.roll.Roll;
+import com.piotrm.wodbot.roll.RollForDamage;
+import com.piotrm.wodbot.roll.RollWithDifficulty;
+import com.piotrm.wodbot.roll.RollWithSpecialisation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,9 +53,33 @@ public class CommandManager {
             Data data = requestBody.getData();
             if (data.getName().equals(ROLL.toString())) {
                 logger.debug("roll request");
-                Options[] options = data.getOptions();
-                Options diceQuantity = options[0];
-                BasicRoll roll = new BasicRoll(diceQuantity.getValue(), "Unknown");
+                Option[] options = data.getOptions();
+
+                Roll roll = null;
+
+                //Basic roll
+                if(options.length==1){
+                    OptionByte diceQuantity = (OptionByte)options[0];
+                    roll = new Roll(diceQuantity.getValue(), requestBody.getMember().getUser().getId());
+
+                    //with difficulty
+                } else if(options.length == 2){
+                    OptionByte diceQuantity = (OptionByte)options[0];
+                    OptionByte difficulty = (OptionByte)options[1];
+                    roll = new RollWithDifficulty(diceQuantity.getValue(), requestBody.getMember().getUser().getId(),difficulty.getValue());
+                }else if(options.length==3){
+                    OptionByte diceQuantity = (OptionByte)options[0];
+                    OptionByte difficulty = (OptionByte)options[1];
+                    OptionBool special = (OptionBool)options[2];
+                    if(special.getName().equals("specialisation")){
+                        roll = new RollWithSpecialisation(diceQuantity.getValue(), requestBody.getMember().getUser().getId(),difficulty.getValue());
+                    }else if(special.getName().equals("health-roll")){
+                        roll = new RollForDamage(diceQuantity.getValue(), requestBody.getMember().getUser().getId(),difficulty.getValue());
+
+                    }
+
+                }
+
                 roll.roll();
 
                 responseBody.put("type", 4);

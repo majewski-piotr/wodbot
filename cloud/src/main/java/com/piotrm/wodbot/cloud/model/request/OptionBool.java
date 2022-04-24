@@ -1,9 +1,11 @@
 package com.piotrm.wodbot.cloud.model.request;
 
-public class Options {
+
+public class OptionBool implements Option {
+
     private String name;
     private byte type;
-    private byte value;
+    private boolean value;
 
     public String getName() {
         return name;
@@ -21,11 +23,20 @@ public class Options {
         this.type = type;
     }
 
-    public byte getValue() {
+    public boolean getValue() {
         return value;
     }
 
-    public void setValue(byte value) {
+    public void setValue(boolean value) {
         this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return "Options{" +
+                "name='" + name + '\'' +
+                ", type=" + type +
+                ", value=" + value +
+                '}';
     }
 }

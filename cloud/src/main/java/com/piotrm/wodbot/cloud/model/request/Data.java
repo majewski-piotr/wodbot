@@ -1,10 +1,12 @@
 package com.piotrm.wodbot.cloud.model.request;
 
+import java.util.Arrays;
+
 public class Data {
     private String guild_id;
     private String id;
     private String name;
-    private Options[] options;
+    private Option[] options;
     private byte type;
 
     public String getGuild_id() {
@@ -31,11 +33,11 @@ public class Data {
         this.name = name;
     }
 
-    public Options[] getOptions() {
+    public Option[] getOptions() {
         return options;
     }
 
-    public void setOptions(Options[] options) {
+    public void setOptions(Option[] options) {
         this.options = options;
     }
 
@@ -45,5 +47,16 @@ public class Data {
 
     public void setType(byte type) {
         this.type = type;
+    }
+
+    @Override
+    public String toString() {
+        return "Data{" +
+                "guild_id='" + guild_id + '\'' +
+                ", id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", options=" + Arrays.toString(options) +
+                ", type=" + type +
+                '}';
     }
 }

@@ -31,6 +31,7 @@ public class Bot {
 
         Body requestBody = null;
         try {
+            logger.debug(event.getBody());
             requestBody = mapper.readValue(event.getBody(), Body.class);
         } catch (JsonProcessingException e) {
             logger.error("Failed to read body from request", e);
@@ -41,7 +42,8 @@ public class Bot {
 
         boolean isValidated = false;
         try {
-            isValidated = requestValidator.validateRequest(event.getHeaders(), mapper.writeValueAsString(requestBody));
+            logger.debug(mapper.writeValueAsString(requestBody));
+            isValidated = requestValidator.validateRequest(event.getHeaders(), event.getBody());
         } catch (JsonProcessingException e) {
             logger.error("Failed to write request bofy as a String", e);
         }

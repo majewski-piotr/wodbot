@@ -1,15 +1,15 @@
 package com.piotrm.wodbot.event.strategies;
 
-import discord4j.core.object.entity.Message;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import discord4j.core.object.entity.Message;
 import reactor.core.publisher.Mono;
 
-public abstract class MessageCreateEventStrategy implements EventStrategy<MessageCreateEvent>{
+public abstract class MessageCreateEventStrategy implements EventStrategy<MessageCreateEvent> {
 
     protected Message message;
     protected String[] data;
 
-    protected void setUp(discord4j.core.event.domain.message.MessageCreateEvent event) {
+    protected void setUp(MessageCreateEvent event) {
         this.message = event.getMessage();
         this.data = event.getMessage().getContent().split("\\s+");
     }

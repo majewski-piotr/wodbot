@@ -4,7 +4,6 @@ apply plugin: "org.springframework.boot"
 
 
 dependencies {
-    implementation project(":common")
     implementation 'org.openjfx:javafx-graphics:11:' + platform
     implementation 'org.openjfx:javafx-fxml:11:' + platform
     implementation 'org.openjfx:javafx-swing:11:' + platform
