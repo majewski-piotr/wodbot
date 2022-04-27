@@ -23,7 +23,7 @@ public class RollWithSpecialisation extends RollWithDifficulty {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(50);
-        sb.append(getMention()).append(" rolls with specialisation, difficulty **").append(difficulty).append("** -> ")
+        sb.append("specialized roll at difficulty **").append(difficulty).append("**").append(GAME_DICE)
                 .append(getRollResultMarkTens()).append("\n")
                 .append("**SUCCESSES**: **").append(passed - ones).append("** \n");
 

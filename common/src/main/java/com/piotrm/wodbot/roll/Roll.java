@@ -6,11 +6,11 @@ import java.util.List;
 public class Roll {
     protected final int diceQuantity;
     protected List<Integer> rollResult;
-    protected String authorId;
+
+    public static final String GAME_DICE = " :game_die: ";
 
     public Roll(int diceQuantity, String authorId) {
         this.diceQuantity = diceQuantity;
-        this.authorId = authorId;
         this.rollResult = new ArrayList<>(diceQuantity);
     }
 
@@ -18,10 +18,6 @@ public class Roll {
         for (int i = 0; i < diceQuantity; i++) {
             rollResult.add((int) ((Math.random() * 10) + 1));
         }
-    }
-
-    protected String getMention() {
-        return String.format("<@%s>", authorId);
     }
 
     protected String getRolls() {
@@ -35,7 +31,7 @@ public class Roll {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(50);
-        sb.append(getMention()).append(" rolls\n").append(getRolls());
+        sb.append(" roll").append(GAME_DICE).append(getRolls());
         return sb.toString();
     }
 }

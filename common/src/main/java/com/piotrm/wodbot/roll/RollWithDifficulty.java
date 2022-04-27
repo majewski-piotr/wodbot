@@ -37,7 +37,7 @@ public class RollWithDifficulty extends Roll {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(50);
-        sb.append(getMention()).append(" rolls with difficulty **").append(difficulty).append("** -> ")
+        sb.append("roll at difficulty **").append(difficulty).append("**").append(GAME_DICE)
                 .append(getRollResultMarkOnes()).append("\n")
                 .append("**SUCCESSES**: **").append(passed - ones).append("** \n");
 

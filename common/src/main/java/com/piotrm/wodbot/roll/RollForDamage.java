@@ -21,7 +21,7 @@ public class RollForDamage extends RollWithDifficulty {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder(50);
-        sb.append(getMention()).append(" rolls damage related roll at difficulty **").append(difficulty).append("** -> ")
+        sb.append("damage related roll at difficulty **").append(difficulty).append("**").append(GAME_DICE)
                 .append(getRolls()).append("\n")
                 .append("**SUCCESSES**: **").append(passed - ones).append("** \n");
 

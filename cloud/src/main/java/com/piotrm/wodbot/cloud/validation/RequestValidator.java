@@ -18,7 +18,6 @@ public class RequestValidator {
         String message = headers.get(X_SIGNATURE_TIMESTAMP) + body;
 
         boolean validated = Crypto.signVerify(key,message.getBytes(),fromHex(headers.get(X_SIGNATURE_ED25519)));
-
         return validated;
     }
 

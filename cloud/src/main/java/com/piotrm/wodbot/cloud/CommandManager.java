@@ -5,100 +5,117 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.piotrm.wodbot.cloud.model.request.*;
 import com.piotrm.wodbot.cloud.model.response.ApiGatewayResponse;
-import com.piotrm.wodbot.roll.Roll;
-import com.piotrm.wodbot.roll.RollForDamage;
-import com.piotrm.wodbot.roll.RollWithDifficulty;
-import com.piotrm.wodbot.roll.RollWithSpecialisation;
+import com.piotrm.wodbot.roll.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.piotrm.wodbot.cloud.CommandManager.Command.ROLL;
+import static com.piotrm.wodbot.cloud.Bot.getErrorResponse;
 
 public class CommandManager {
-    private final ObjectMapper mapper = new ObjectMapper();
+    private static final ObjectMapper mapper = new ObjectMapper();
     private static final Logger logger = LoggerFactory.getLogger(CommandManager.class);
 
-    public enum Command {
-        PONG(1),
-        ROLL(2);
-        final int type;
+    private static final int INTERACTION_PONG = 1;
+    private static final int INTERACTION_APPLICATION_COMMAND = 2;
+    private static final String OPTION_QUANTITY = "quantity";
+    private static final String OPTION_DIFFICULTY = "difficulty";
 
-        Command(int type) {
-            this.type = type;
-        }
-        @Override
-        public String toString(){
-           return this.name().toLowerCase();
+    private static final String COMMAND_ROLL = "roll";
+    private static final String COMMAND_ROLL_WITH_SPECIALIZATION = "roll_with_specialization";
+    private static final String COMMAND_ROLL_FOR_DAMAGE = "roll_for_damage";
+
+
+    public ApiGatewayResponse respondToRequest(Body requestBody) throws JsonProcessingException {
+
+        switch (requestBody.getType()) {
+            case INTERACTION_PONG:
+                return getPongResponse();
+            case INTERACTION_APPLICATION_COMMAND:
+                return getApplicationCommandResponse(requestBody);
+            default:
+                String message = "Cannot parse, unknown interaction type";
+                logger.error(message);
+                return getErrorResponse(message, 422);
         }
     }
 
-    public ApiGatewayResponse respondToRequest(Body requestBody) throws JsonProcessingException {
-        logger.debug(mapper.writeValueAsString(requestBody));
+    private ApiGatewayResponse getApplicationCommandResponse(Body requestBody) throws JsonProcessingException {
+
+        String authorId = requestBody.getMember().getUser().getId();
+        RollBuilder rollBuilder = new RollBuilder(authorId);
+
+        Data data = requestBody.getData();
+        String commandName = data.getName();
+        switch (commandName) {
+            case COMMAND_ROLL_WITH_SPECIALIZATION:
+                rollBuilder = rollBuilder.withSpecialization();
+                break;
+            case COMMAND_ROLL_FOR_DAMAGE:
+                rollBuilder = rollBuilder.forDamage();
+                break;
+            case COMMAND_ROLL:
+                break;
+            default:
+                String message = "Cannot parse, unknown command";
+                logger.error(message);
+                return getErrorResponse(message, 422);
+        }
+
+        for (Option option : data.getOptions()) {
+            switch (option.getName()) {
+                case OPTION_QUANTITY:
+                    rollBuilder = rollBuilder.withQuantity(option.getValue());
+                    break;
+                case OPTION_DIFFICULTY:
+                    rollBuilder = rollBuilder.withDifficulty(option.getValue());
+                    break;
+                default:
+                    String message = "Cannot parse, unknown option";
+                    logger.error(message);
+                    return getErrorResponse(message, 422);
+            }
+        }
+
+        Roll roll = rollBuilder.build();
+        roll.roll();
+
+        return getChatInputResponse(roll.toString());
+    }
+
+    private ApiGatewayResponse getPongResponse() {
+        logger.debug("pong request");
+
         Map<String, String> headers = new HashMap<>();
         headers.put("Content-Type", "application/json");
         ObjectNode responseBody = mapper.createObjectNode();
+        responseBody.put("type", 1);
 
-        if (requestBody.getType() == Command.PONG.type) {
-            logger.debug("pong request");
-            responseBody.put("type", 1);
-            return ApiGatewayResponse.builder()
-                    .withHeaders(headers)
-                    .withBody(responseBody.toString())
-                    .withStatusCode(200)
-                    .build();
-        } else if (requestBody.getType() == Command.ROLL.type) {
-            Data data = requestBody.getData();
-            if (data.getName().equals(ROLL.toString())) {
-                logger.debug("roll request");
-                Option[] options = data.getOptions();
-
-                Roll roll = null;
-
-                //Basic roll
-                if(options.length==1){
-                    OptionByte diceQuantity = (OptionByte)options[0];
-                    roll = new Roll(diceQuantity.getValue(), requestBody.getMember().getUser().getId());
-
-                    //with difficulty
-                } else if(options.length == 2){
-                    OptionByte diceQuantity = (OptionByte)options[0];
-                    OptionByte difficulty = (OptionByte)options[1];
-                    roll = new RollWithDifficulty(diceQuantity.getValue(), requestBody.getMember().getUser().getId(),difficulty.getValue());
-                }else if(options.length==3){
-                    OptionByte diceQuantity = (OptionByte)options[0];
-                    OptionByte difficulty = (OptionByte)options[1];
-                    OptionBool special = (OptionBool)options[2];
-                    if(special.getName().equals("specialisation")){
-                        roll = new RollWithSpecialisation(diceQuantity.getValue(), requestBody.getMember().getUser().getId(),difficulty.getValue());
-                    }else if(special.getName().equals("health-roll")){
-                        roll = new RollForDamage(diceQuantity.getValue(), requestBody.getMember().getUser().getId(),difficulty.getValue());
-
-                    }
-
-                }
-
-                roll.roll();
-
-                responseBody.put("type", 4);
-                ObjectNode responseData = mapper.createObjectNode();
-                responseData.put("content", roll.toString());
-                responseBody.put("data", responseData);
-
-                return ApiGatewayResponse.builder()
-                        .withHeaders(headers)
-                        .withBody(mapper.writeValueAsString(responseBody))
-                        .withStatusCode(200)
-                        .build();
-            }
-        }
         return ApiGatewayResponse.builder()
                 .withHeaders(headers)
-                .withBody("Cannot process this request")
-                .withStatusCode(400)
+                .withBody(responseBody.toString())
+                .withStatusCode(200)
                 .build();
     }
 
+    private ApiGatewayResponse getChatInputResponse(String value) {
+        logger.debug("chatinput request");
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+
+        ObjectNode responseBody = mapper.createObjectNode();
+        responseBody.put("type", 4);
+        ObjectNode responseData = mapper.createObjectNode();
+        responseData.put("content", value);
+        responseBody.put("data", responseData);
+
+        return ApiGatewayResponse.builder()
+                .withHeaders(headers)
+                .withBody(responseBody.toString())
+                .withStatusCode(200)
+                .build();
+    }
 }

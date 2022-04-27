@@ -9,15 +9,14 @@ import org.slf4j.LoggerFactory;
 
 public class Handler implements RequestHandler<APIGatewayProxyRequestEvent, ApiGatewayResponse> {
 
+    //This approach apparently saves execution time on cold starts
     private static final Logger logger = LoggerFactory.getLogger(Handler.class);
+    private static final BotConfiguration botConfiguration = new BotConfiguration();
+    private static final Bot bot = new Bot(botConfiguration);
 
     public ApiGatewayResponse handleRequest(APIGatewayProxyRequestEvent event, Context context) {
 
-        logger.debug("configuring bot");
-        BotConfiguration botConfiguration = new BotConfiguration();
-        Bot bot = new Bot(botConfiguration);
-
-        logger.debug("passing request to bot");
+        logger.debug("Received event: " + event);
         return bot.handleRequest(event);
     }
 }

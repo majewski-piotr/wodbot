@@ -2,7 +2,6 @@ package com.piotrm.wodbot.cloud;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.piotrm.wodbot.cloud.model.response.ApiGatewayResponse;
@@ -18,9 +17,9 @@ public class Bot {
     private final RequestValidator requestValidator;
 
     private static final Logger logger = LoggerFactory.getLogger(Bot.class);
-
-    private final ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
-    ;
+    private static final ObjectMapper mapper = new ObjectMapper();
+    private static final CommandManager commandManager = new CommandManager();
+    private static final Class<com.piotrm.wodbot.cloud.model.request.Body> bodyClass = Body.class;
 
 
     public Bot(BotConfiguration botConfiguration) {
@@ -31,43 +30,41 @@ public class Bot {
 
         Body requestBody = null;
         try {
-            logger.debug(event.getBody());
-            requestBody = mapper.readValue(event.getBody(), Body.class);
+            requestBody = mapper.readValue(event.getBody(), bodyClass);
         } catch (JsonProcessingException e) {
-            logger.error("Failed to read body from request", e);
+            String message = "Failed to read body from request";
+            logger.error(message, e);
+            return getErrorResponse(message, 400);
         }
 
-        logger.debug(String.valueOf(requestBody));
-        ApiGatewayResponse response = null;
+        boolean isValidated = requestValidator.validateRequest(event.getHeaders(), event.getBody());
 
-        boolean isValidated = false;
-        try {
-            logger.debug(mapper.writeValueAsString(requestBody));
-            isValidated = requestValidator.validateRequest(event.getHeaders(), event.getBody());
-        } catch (JsonProcessingException e) {
-            logger.error("Failed to write request bofy as a String", e);
-        }
-
-
+        ApiGatewayResponse response;
         if (!isValidated) {
-            logger.warn("request not validated");
-            Map<String, String> headers = new HashMap<>();
-            headers.put("Content-Type", "application/json");
-            response = ApiGatewayResponse.builder()
-                    .withHeaders(headers)
-                    .withBody("validation failed")
-                    .withStatusCode(401)
-                    .build();
+            return getErrorResponse("Validation failed", 403);
         } else {
-            CommandManager commandManager = new CommandManager();
             try {
                 response = commandManager.respondToRequest(requestBody);
             } catch (JsonProcessingException e) {
-                logger.error("Failed to parse command", e);
+                String message = "Failed to parse command";
+                logger.error(message, e);
+                return getErrorResponse(message, 400);
             }
         }
-
-        logger.info("response body: " + response.getBody());
         return response;
+    }
+
+    public static ApiGatewayResponse getErrorResponse(String message, int status) {
+
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Content-Type", "application/json");
+        ObjectNode responseBody = mapper.createObjectNode();
+        responseBody.put("error", message);
+
+        return ApiGatewayResponse.builder()
+                .withHeaders(headers)
+                .withBody(responseBody.toString())
+                .withStatusCode(status)
+                .build();
     }
 }
