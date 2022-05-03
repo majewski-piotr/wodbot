@@ -51,7 +51,6 @@ gradle.properties
 ## Terraform ###
 /cloud/infrastructure/terraform/aws/terraform.tfvars
 /cloud/infrastructure/aws/credentials
-/cloud/infrastructure/aws/.terraform.lock.hcl
 /cloud/infrastructure/aws/.terraform/
 /cloud/infrastructure/aws/terraform.tfvars
 

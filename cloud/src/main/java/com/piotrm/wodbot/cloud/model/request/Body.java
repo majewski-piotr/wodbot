@@ -20,4 +20,5 @@ public class Body {
     private String token;
     private byte type;
     private byte version;
+    private User user;
 }
