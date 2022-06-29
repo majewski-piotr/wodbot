@@ -9,6 +9,7 @@ import lombok.extern.jackson.Jacksonized;
 @ToString
 @Jacksonized
 public class Body {
+    private String app_permissions;
     private String application_id;
     private String channel_id;
     private Data data;
