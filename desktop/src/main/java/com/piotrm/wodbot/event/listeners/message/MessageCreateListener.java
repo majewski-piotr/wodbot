@@ -1,8 +1,10 @@
 package com.piotrm.wodbot.event.listeners.message;
 
-import com.piotrm.wodbot.event.listeners.EventListener;
+import com.piotrm.wodbot.desktop.event.strategies.*;
 import com.piotrm.wodbot.event.strategies.*;
 import discord4j.core.event.domain.message.MessageCreateEvent;
+import com.piotrm.wodbot.event.listeners.EventListener;
+import event.strategies.*;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Predicate;

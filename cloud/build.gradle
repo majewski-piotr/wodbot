@@ -1,0 +1,30 @@
+plugins{
+    id "io.freefair.lombok" version "6.4.3"
+}
+
+dependencies {
+    implementation platform('software.amazon.awssdk:bom:2.15.0')
+    implementation project(":common")
+    implementation 'software.amazon.awssdk:secretsmanager'
+    implementation 'software.amazon.awssdk:url-connection-client:2.17.172'
+
+    implementation 'com.amazonaws:aws-lambda-java-events:3.11.0'
+    implementation 'com.amazonaws:aws-lambda-java-core:1.2.0'
+    implementation 'software.pando.crypto:salty-coffee:1.0.4'
+    implementation 'org.slf4j:slf4j-api:1.8.0-beta2'
+    runtimeOnly 'org.jlib:jlib-awslambda-logback:1.0.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtimeClasspath
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

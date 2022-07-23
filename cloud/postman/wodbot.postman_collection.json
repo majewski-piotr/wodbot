@@ -1,0 +1,204 @@
+{
+	"info": {
+		"_postman_id": "8bee8689-23bf-4ccd-8a3b-1e14e2672355",
+		"name": "wodbot",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create roll command",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bot {{bot_token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"roll\",\n    \"type\": 1,\n    \"description\": \"roll ten sided dices\",\n    \"options\": [\n        {\n            \"name\": \"quantity\",\n            \"description\": \"number of dices\",\n            \"type\": 4,\n            \"required\": true\n        },\n        {\n            \"name\": \"difficulty\",\n            \"description\": \"set difficulty\",\n            \"type\": 4,\n            \"required\": false\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://discord.com/api/v8/applications/{{application_id}}/guilds/{{guild_id}}/commands",
+					"protocol": "https",
+					"host": [
+						"discord",
+						"com"
+					],
+					"path": [
+						"api",
+						"v8",
+						"applications",
+						"{{application_id}}",
+						"guilds",
+						"{{guild_id}}",
+						"commands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create roll specialised command",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bot {{bot_token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"roll_with_specialization\",\n    \"type\": 1,\n    \"description\": \"roll ten sided dices, 10 counts as two successes\",\n    \"options\": [\n        {\n            \"name\": \"quantity\",\n            \"description\": \"number of dices\",\n            \"type\": 4,\n            \"required\": true\n        },\n        {\n            \"name\": \"difficulty\",\n            \"description\": \"set difficulty\",\n            \"type\": 4,\n            \"required\": true\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://discord.com/api/v8/applications/{{application_id}}/guilds/{{guild_id}}/commands",
+					"protocol": "https",
+					"host": [
+						"discord",
+						"com"
+					],
+					"path": [
+						"api",
+						"v8",
+						"applications",
+						"{{application_id}}",
+						"guilds",
+						"{{guild_id}}",
+						"commands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create roll for damage command",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bot {{bot_token}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"roll_for_damage\",\n    \"type\": 1,\n    \"description\": \"roll ten sided dices, 1 doesn't substract successes\",\n    \"options\": [\n        {\n            \"name\": \"quantity\",\n            \"description\": \"number of dices\",\n            \"type\": 4,\n            \"required\": true\n        },\n        {\n            \"name\": \"difficulty\",\n            \"description\": \"set difficulty\",\n            \"type\": 4,\n            \"required\": false\n        }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://discord.com/api/v8/applications/{{application_id}}/guilds/{{guild_id}}/commands",
+					"protocol": "https",
+					"host": [
+						"discord",
+						"com"
+					],
+					"path": [
+						"api",
+						"v8",
+						"applications",
+						"{{application_id}}",
+						"guilds",
+						"{{guild_id}}",
+						"commands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get guild application commands",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bot {{bot_token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://discord.com/api/v8/applications/{{application_id}}/guilds/{{guild_id}}/commands",
+					"protocol": "https",
+					"host": [
+						"discord",
+						"com"
+					],
+					"path": [
+						"api",
+						"v8",
+						"applications",
+						"{{application_id}}",
+						"guilds",
+						"{{guild_id}}",
+						"commands"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete guild comand comand",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bot {{bot_token}}",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "https://discord.com/api/v8/applications/{{application_id}}/guilds/{{guild_id}}/commands/12345",
+					"protocol": "https",
+					"host": [
+						"discord",
+						"com"
+					],
+					"path": [
+						"api",
+						"v8",
+						"applications",
+						"{{application_id}}",
+						"guilds",
+						"{{guild_id}}",
+						"commands",
+						"12345"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

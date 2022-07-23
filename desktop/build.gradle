@@ -1,12 +1,20 @@
 def platform = this.property('platform')
 
+apply plugin: "org.springframework.boot"
+
+
 dependencies {
-    implementation project(":common")
     implementation 'org.openjfx:javafx-graphics:11:' + platform
     implementation 'org.openjfx:javafx-fxml:11:' + platform
     implementation 'org.openjfx:javafx-swing:11:' + platform
     implementation 'org.openjfx:javafx-controls:11:' + platform
     implementation 'org.openjfx:javafx-base:11:' + platform
+
+    implementation 'org.springframework.boot:spring-boot-starter:2.6.4'
+    implementation 'org.springframework.boot:spring-boot-starter-web:2.6.4'
+    implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'com.discord4j:discord4j-core:3.2.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test:2.6.4'
 
 }
 
